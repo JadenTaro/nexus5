@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Nexus5 · 探索</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#0d0d0f;
+  --surface:#17171a;
+  --surface2:#1f1f24;
+  --border:#2a2a30;
+  --text:#f0f0f2;
+  --sub:#888896;
+  --muted:#4a4a58;
+  --accent:#c8f04a;
+  --accent-dim:rgba(200,240,74,0.12);
+  --accent-dim2:rgba(200,240,74,0.06);
+  --tag-bg:#222228;
+  --red:#ff5f5f;
+  --radius:16px;
+  --card-w:340px;
+}
+
+html,body{
+  height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Noto Sans TC',sans-serif;
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+}
+
+/* ── Bottom Nav ── */
+.nav{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  height:64px;
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+  z-index:100;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.nav-btn{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  color:var(--muted);font-size:10px;font-weight:500;
+  background:none;border:none;cursor:pointer;font-family:inherit;
+  transition:color .15s;padding:8px 16px;
+}
+.nav-btn.active{color:var(--accent);}
+.nav-icon{font-size:20px;line-height:1;}
+
+/* ── Top bar ── */
+.topbar{
+  position:fixed;
+  top:0;left:0;right:0;
+  height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;
+  background:linear-gradient(to bottom,var(--bg) 70%,transparent);
+  z-index:100;
+}
+.topbar-logo{
+  font-size:17px;font-weight:900;
+  letter-spacing:-0.5px;color:var(--text);
+}
+.topbar-logo span{color:var(--accent);}
+.topbar-search{
+  flex:1;margin:0 12px;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:10px;
+  display:flex;align-items:center;gap:8px;
+  padding:0 12px;height:36px;
+  cursor:text;
+}
+.topbar-search input{
+  background:none;border:none;outline:none;
+  color:var(--text);font-size:13px;font-family:inherit;
+  width:100%;
+}
+.topbar-search input::placeholder{color:var(--muted);}
+.search-icon{color:var(--muted);font-size:14px;flex-shrink:0;}
+.topbar-avatar{
+  width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,#3a3a8a,#6a3a9a);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:white;flex-shrink:0;
+  border:2px solid var(--accent);cursor:pointer;
+}
+
+/* ── Screens ── */
+.screen{
+  position:fixed;
+  inset:56px 0 64px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  display:none;
+  -webkit-overflow-scrolling:touch;
+}
+.screen.active{display:block;}
+
+/* ── Explore screen ── */
+#screen-explore{
+  padding:12px 16px 20px;
+}
+
+/* Filter chips */
+.chips{
+  display:flex;gap:8px;overflow-x:auto;
+  padding-bottom:12px;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+.chips::-webkit-scrollbar{display:none;}
+.chip{
+  flex-shrink:0;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  color:var(--sub);
+  border-radius:20px;
+  padding:6px 14px;
+  font-size:12px;font-weight:500;
+  cursor:pointer;transition:all .15s;
+  white-space:nowrap;font-family:inherit;
+}
+.chip:hover{border-color:var(--accent);color:var(--accent);}
+.chip.active{
+  background:var(--accent-dim);
+  border-color:var(--accent);
+  color:var(--accent);font-weight:700;
+}
+
+/* Card grid — masonry-ish 2 col */
+.card-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.pcard{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  cursor:pointer;
+  transition:transform .15s, border-color .15s;
+  display:flex;flex-direction:column;
+  animation:rise .25s ease both;
+}
+.pcard:hover{transform:translateY(-2px);border-color:var(--accent);}
+
+@keyframes rise{
+  from{opacity:0;transform:translateY(10px)}
+  to  {opacity:1;transform:translateY(0)}
+}
+
+.pcard-cover{
+  width:100%;
+  aspect-ratio:16/10;
+  object-fit:cover;
+  display:block;
+  background:var(--surface2);
+  position:relative;overflow:hidden;
+}
+.pcard-cover-inner{
+  width:100%;height:100%;
+  position:relative;
+  background:var(--surface2);
+  padding:10px;
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+.pcard-works-strip{
+  display:flex;gap:4px;flex:1;
+}
+.pcard-works-strip .wmini{
+  flex:1;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;
+  background:rgba(255,255,255,0.06);
+}
+.pcard-avatar-row{
+  display:flex;align-items:center;gap:6px;
+}
+.pcard-avatar-mini{
+  width:24px;height:24px;border-radius:7px;
+  background:rgba(0,0,0,0.35);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;flex-shrink:0;
+}
+.pcard-cover-inner.g1{background:linear-gradient(135deg,#1a1a3e,#2a1a4e);}
+.pcard-cover-inner.g2{background:linear-gradient(135deg,#0d2a1a,#1a3a2a);}
+.pcard-cover-inner.g3{background:linear-gradient(135deg,#2a1a0d,#3a2a0d);}
+.pcard-cover-inner.g4{background:linear-gradient(135deg,#1a0d2a,#2a1a3a);}
+.pcard-cover-inner.g5{background:linear-gradient(135deg,#0d1a2a,#1a2a3a);}
+.pcard-cover-inner.g6{background:linear-gradient(135deg,#2a0d0d,#3a1a1a);}
+
+.open-to{
+  position:absolute;top:8px;right:8px;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(4px);
+  color:var(--accent);
+  font-size:9px;font-weight:700;
+  padding:3px 7px;border-radius:20px;
+  letter-spacing:0.5px;
+}
+
+.pcard-body{padding:10px 11px 12px;}
+.pcard-name{font-size:13px;font-weight:700;margin-bottom:2px;}
+.pcard-role{font-size:11px;color:var(--sub);margin-bottom:8px;line-height:1.3;}
+.pcard-tags{display:flex;flex-wrap:wrap;gap:4px;}
+.ptag{
+  font-size:10px;
+  background:var(--tag-bg);
+  color:var(--muted);
+  border-radius:6px;
+  padding:2px 7px;
+  font-weight:500;
+}
+.ptag.hot{color:var(--accent);background:var(--accent-dim);}
+
+.pcard-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 11px 11px;
+  margin-top:auto;
+}
+.via-badge{
+  font-size:10px;color:var(--muted);
+  display:flex;align-items:center;gap:4px;
+}
+.dot-conn{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+.btn-like{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--surface2);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:13px;transition:all .15s;
+  flex-shrink:0;
+}
+.btn-like:hover{background:var(--accent-dim);border-color:var(--accent);}
+.btn-like.liked{background:var(--accent-dim);border-color:var(--accent);}
+
+/* ── Detail sheet ── */
+.sheet-overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,0.7);
+  z-index:200;
+  display:none;
+  align-items:flex-end;
+  backdrop-filter:blur(2px);
+}
+.sheet-overlay.show{display:flex;}
+.sheet{
+  background:var(--surface);
+  border-radius:20px 20px 0 0;
+  width:100%;
+  max-height:82vh;
+  overflow-y:auto;
+  padding:0 0 40px;
+  animation:slideUp .25s cubic-bezier(.25,.46,.45,.94);
+}
+@keyframes slideUp{
+  from{transform:translateY(100%)}
+  to{transform:translateY(0)}
+}
+.sheet-handle{
+  width:36px;height:4px;border-radius:2px;
+  background:var(--border);margin:12px auto 0;
+}
+.sheet-cover{
+  width:100%;height:200px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:72px;margin-top:12px;
+}
+.sheet-main{padding:0 20px;}
+.sheet-name{font-size:22px;font-weight:900;margin-bottom:4px;}
+.sheet-role{font-size:14px;color:var(--sub);margin-bottom:12px;}
+.sheet-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
+.sheet-tag{
+  font-size:12px;background:var(--tag-bg);
+  color:var(--sub);border-radius:8px;padding:4px 10px;
+}
+.sheet-tag.accent{color:var(--accent);background:var(--accent-dim);}
+.sheet-bio{
+  font-size:13px;color:var(--sub);line-height:1.7;
+  margin-bottom:20px;
+}
+.sheet-section{font-size:11px;font-weight:700;color:var(--muted);
+  letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.sheet-works{display:flex;gap:8px;overflow-x:auto;margin-bottom:20px;
+  padding-bottom:4px;scrollbar-width:none;}
+.sheet-works::-webkit-scrollbar{display:none;}
+.work-thumb{
+  width:80px;height:80px;border-radius:10px;
+  background:var(--surface2);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;flex-shrink:0;
+}
+.sheet-via{
+  background:var(--accent-dim2);border:1px solid rgba(200,240,74,0.15);
+  border-radius:10px;padding:10px 14px;margin-bottom:20px;
+  font-size:12px;color:var(--sub);line-height:1.5;
+}
+.sheet-via b{color:var(--accent);}
+
+.sheet-nav{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(13,13,15,0.55);backdrop-filter:blur(6px);
+  border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:var(--text);cursor:pointer;
+  z-index:10;transition:background .15s, opacity .15s;
+}
+.sheet-nav:hover{background:rgba(200,240,74,0.15);border-color:var(--accent);}
+.sheet-nav.prev{left:14px;}
+.sheet-nav.next{right:14px;}
+.sheet-nav.disabled{opacity:0.25;pointer-events:none;}
+.sheet-progress{
+  display:flex;gap:4px;justify-content:center;padding:10px 0 0;
+}
+.sheet-progress-dot{
+  width:5px;height:5px;border-radius:50%;background:var(--border);
+  transition:background .2s, width .2s;
+}
+.sheet-progress-dot.active{background:var(--accent);width:14px;border-radius:3px;}
+
+.sheet-actions{display:flex;gap:10px;}
+.btn-connect-sheet{
+  flex:1;background:var(--accent);color:#0d0d0f;
+  border:none;border-radius:12px;padding:14px;
+  font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;
+  transition:opacity .15s;
+}
+.btn-connect-sheet:hover{opacity:0.85;}
+.btn-save-sheet{
+  width:48px;height:48px;border-radius:12px;
+  background:var(--surface2);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;cursor:pointer;transition:border-color .15s;flex-shrink:0;
+}
+.btn-save-sheet:hover{border-color:var(--accent);}
+
+/* ── Connect screen ── */
+#screen-connect{padding:20px 16px;}
+.connect-empty{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;height:60vh;gap:12px;
+  color:var(--muted);text-align:center;
+}
+.connect-empty-icon{font-size:48px;opacity:0.3;}
+.connect-empty p{font-size:13px;line-height:1.6;}
+
+.req-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:14px 16px;margin-bottom:10px;
+  display:flex;align-items:center;gap:12px;
+}
+.req-ava{
+  width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;background:var(--surface2);flex-shrink:0;
+}
+.req-info{flex:1;min-width:0;}
+.req-name{font-size:14px;font-weight:700;margin-bottom:2px;}
+.req-desc{font-size:11px;color:var(--sub);}
+.req-actions{display:flex;gap:6px;flex-shrink:0;}
+.btn-accept{
+  background:var(--accent);color:#0d0d0f;
+  border:none;border-radius:8px;padding:7px 12px;
+  font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;
+}
+.btn-decline{
+  background:var(--surface2);color:var(--sub);
+  border:1px solid var(--border);border-radius:8px;padding:7px 12px;
+  font-size:12px;font-family:inherit;cursor:pointer;
+}
+.section-label{
+  font-size:11px;font-weight:700;color:var(--muted);
+  letter-spacing:1px;text-transform:uppercase;
+  margin:20px 0 10px;
+}
+
+/* ── Profile screen ── */
+#screen-profile{padding:20px 16px;}
+.profile-header{
+  display:flex;align-items:flex-start;gap:14px;margin-bottom:20px;
+}
+.profile-ava{
+  width:64px;height:64px;border-radius:50%;
+  background:linear-gradient(135deg,#3a3a8a,#6a3a9a);
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;font-weight:700;color:white;
+  border:2px solid var(--accent);flex-shrink:0;
+}
+.profile-info{flex:1;}
+.profile-name{font-size:18px;font-weight:900;margin-bottom:2px;}
+.profile-role{font-size:13px;color:var(--sub);margin-bottom:10px;}
+.profile-stats{display:flex;gap:16px;}
+.stat{text-align:center;}
+.stat-n{font-size:16px;font-weight:700;}
+.stat-l{font-size:10px;color:var(--muted);}
+.profile-bio{
+  font-size:13px;color:var(--sub);line-height:1.7;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:14px;margin-bottom:16px;
+}
+.open-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--accent-dim);border:1px solid rgba(200,240,74,0.3);
+  color:var(--accent);font-size:12px;font-weight:700;
+  padding:6px 14px;border-radius:20px;margin-bottom:16px;
+}
+.open-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);
+  animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* ── Toast ── */
+.toast{
+  position:fixed;bottom:80px;left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:var(--surface2);color:var(--text);
+  font-size:13px;padding:11px 18px;border-radius:30px;
+  border:1px solid var(--border);
+  z-index:500;opacity:0;transition:all .25s;
+  white-space:nowrap;
+  pointer-events:none;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+</style>
+</head>
+<body>
+
+<!-- Top bar -->
+<header class="topbar">
+  <div class="topbar-logo">N<span>5</span></div>
+  <div class="topbar-search">
+    <span class="search-icon">🔍</span>
+    <input type="text" placeholder="搜尋設計師、攝影師、工程師…" id="search-inp" oninput="filterCards(this.value)">
+  </div>
+  <div class="topbar-avatar" onclick="switchTab('profile')">我</div>
+</header>
+
+<!-- Screens -->
+<div class="screen active" id="screen-explore">
+
+  <!-- Filter chips -->
+  <div class="chips" id="chips">
+    <button class="chip active" onclick="setChip(this,'全部')">全部</button>
+    <button class="chip" onclick="setChip(this,'設計')">設計</button>
+    <button class="chip" onclick="setChip(this,'開發')">開發</button>
+    <button class="chip" onclick="setChip(this,'攝影')">攝影</button>
+    <button class="chip" onclick="setChip(this,'音樂')">音樂</button>
+    <button class="chip" onclick="setChip(this,'表演')">表演</button>
+    <button class="chip" onclick="setChip(this,'品牌')">品牌</button>
+    <button class="chip" onclick="setChip(this,'文案')">文案</button>
+    <button class="chip" onclick="setChip(this,'草創')">草創</button>
+  </div>
+
+  <!-- Card grid -->
+  <div class="card-grid" id="card-grid"></div>
+
+</div>
+
+<div class="screen" id="screen-connect">
+  <div class="section-label">待確認的引薦</div>
+  <div id="req-list"></div>
+  <div class="connect-empty" id="connect-empty" style="display:none">
+    <div class="connect-empty-icon">🤝</div>
+    <p>目前沒有待處理的引薦請求<br>去探索頁認識新朋友吧</p>
+  </div>
+</div>
+
+<div class="screen" id="screen-profile">
+  <div class="profile-header">
+    <div class="profile-ava">我</div>
+    <div class="profile-info">
+      <div class="profile-name">你的名字</div>
+      <div class="profile-role">你的專業 · 台北</div>
+      <div class="profile-stats">
+        <div class="stat"><div class="stat-n" id="my-conn-count">0</div><div class="stat-l">人脈</div></div>
+        <div class="stat"><div class="stat-n">5</div><div class="stat-l">推薦名額</div></div>
+        <div class="stat"><div class="stat-n">0</div><div class="stat-l">合作中</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="open-badge"><div class="open-dot"></div> 開放合作 &amp; 接案</div>
+  <div class="profile-bio">
+    這裡是你的自介。點擊編輯，告訴大家你能做什麼、在找什麼樣的合作。
+  </div>
+  <div class="section-label">我推薦的人脈（0/5）</div>
+  <div style="color:var(--muted);font-size:13px;padding:20px 0;text-align:center;">
+    還沒有推薦任何人<br>去探索頁找到你認可的強者
+  </div>
+</div>
+
+<!-- Bottom Nav -->
+<nav class="nav">
+  <button class="nav-btn active" id="nav-explore" onclick="switchTab('explore')">
+    <div class="nav-icon">◈</div>探索
+  </button>
+  <button class="nav-btn" id="nav-connect" onclick="switchTab('connect')">
+    <div class="nav-icon">🤝</div>引薦
+  </button>
+  <button class="nav-btn" id="nav-profile" onclick="switchTab('profile')">
+    <div class="nav-icon">◉</div>我的
+  </button>
+</nav>
+
+<!-- Detail Sheet -->
+<div class="sheet-overlay" id="sheet-overlay" onclick="closeSheet(event)">
+  <div class="sheet" id="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-progress" id="s-progress"></div>
+    <div style="position:relative;">
+      <div class="sheet-nav prev" id="s-nav-prev" onclick="navSheet(-1)">‹</div>
+      <div class="sheet-nav next" id="s-nav-next" onclick="navSheet(1)">›</div>
+      <div class="sheet-cover" id="s-cover"></div>
+    </div>
+    <div class="sheet-main">
+      <div class="sheet-name" id="s-name"></div>
+      <div class="sheet-role" id="s-role"></div>
+      <div class="sheet-tags" id="s-tags"></div>
+      <div class="sheet-bio" id="s-bio"></div>
+      <div class="sheet-section">作品集</div>
+      <div class="sheet-works" id="s-works"></div>
+      <div class="sheet-via" id="s-via"></div>
+      <div class="sheet-actions">
+        <button class="btn-connect-sheet" onclick="sendRequest()">🤝 透過朋友引薦認識</button>
+        <div class="btn-save-sheet" onclick="saveCard()">🔖</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+const PEOPLE = [
+  {
+    id:1, emoji:'🎨', grad:'g1',
+    name:'Ava Wu', role:'品牌視覺設計師 · 台北',
+    tags:['品牌識別','插畫','草創友善'],
+    bio:'幫 10+ 個台灣草創品牌從零建立視覺系統。喜歡那種還在摸索自己味道的小團隊，一起找出來很有趣。',
+    works:['✏️','🎭','🖼️'],
+    via:'林雅婷推薦', openTo:'接案', cats:['設計','品牌'],
+  },
+  {
+    id:2, emoji:'📸', grad:'g2',
+    name:'Ken Tsai', role:'商業攝影 · 台南',
+    tags:['商品攝影','人像','小品牌'],
+    bio:'接過超商、夜市小吃、獨立服裝品牌的拍攝案。小預算也能聊，重點是做出有感覺的東西。',
+    works:['📷','🌆','👗'],
+    via:'陳建宏推薦', openTo:'接案', cats:['攝影'],
+  },
+  {
+    id:3, emoji:'💻', grad:'g3',
+    name:'Alex Lin', role:'全端工程師 · 新竹',
+    tags:['React','Node.js','MVP開發'],
+    bio:'幫三個草創團隊從概念做到上線，最快六週。想找長期合作的技術合夥人角色，不只是接案。',
+    works:['🛠️','📱','⚡'],
+    via:'高志明推薦', openTo:'合作', cats:['開發'],
+  },
+  {
+    id:4, emoji:'🎵', grad:'g4',
+    name:'Mia Chen', role:'音樂製作人 · 台北',
+    tags:['廣告配樂','獨立音樂','聲音品牌'],
+    bio:'做廣告配樂也做獨立創作，正在找想一起做聲音品牌的視覺創作者或導演合作。',
+    works:['🎧','🎹','🎬'],
+    via:'吳宗翰推薦', openTo:'合作', cats:['音樂'],
+  },
+  {
+    id:5, emoji:'🎭', grad:'g5',
+    name:'Sam Huang', role:'街頭藝人／表演者 · 高雄',
+    tags:['雜技','街頭表演','活動演出'],
+    bio:'從西門町到駁二都表演過，也接企業尾牙和市集活動。有品牌想跨界合作的可以聊。',
+    works:['🤹','🎪','✨'],
+    via:'黃宇軒推薦', openTo:'接案', cats:['表演'],
+  },
+  {
+    id:6, emoji:'✍️', grad:'g6',
+    name:'Nina Fang', role:'品牌文案 · 台中',
+    tags:['社群文案','品牌故事','新創'],
+    bio:'專門幫那種「東西很好但不知道怎麼說」的品牌找到自己的語氣。做過食品、服裝、軟體新創。',
+    works:['📝','💬','🏷️'],
+    via:'林雅婷推薦', openTo:'接案', cats:['文案','品牌'],
+  },
+];
+
+let liked = new Set();
+let requests = [];
+let activeChip = '全部';
+let currentPerson = null;
+let sheetList = [];
+let sheetIndex = 0;
+
+// ── Render cards ──
+function renderCards(people){
+  const grid = document.getElementById('card-grid');
+  if(!people.length){
+    grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:40px 0;color:var(--muted);font-size:13px;">找不到符合條件的人才</div>`;
+    return;
+  }
+  grid.innerHTML = people.map((p,i)=>`
+    <div class="pcard" style="animation-delay:${i*0.05}s" onclick="openSheet(${p.id})">
+      <div class="pcard-cover">
+        <div class="pcard-cover-inner ${p.grad}">
+          <div class="open-to" style="position:static;align-self:flex-end;">${p.openTo==='接案'?'💼 接案':'🤝 找合夥'}</div>
+          <div class="pcard-works-strip">
+            ${p.works.map(w=>`<div class="wmini">${w}</div>`).join('')}
+          </div>
+        </div>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-avatar-row" style="margin-bottom:8px;">
+          <div class="pcard-avatar-mini">${p.emoji}</div>
+          <div style="min-width:0;">
+            <div class="pcard-name">${p.name}</div>
+            <div class="pcard-role" style="margin-bottom:0;">${p.role}</div>
+          </div>
+        </div>
+        <div class="pcard-tags">
+          ${p.tags.map((t,ti)=>`<span class="ptag${ti===0?' hot':''}">${t}</span>`).join('')}
+        </div>
+      </div>
+      <div class="pcard-footer">
+        <div class="via-badge"><div class="dot-conn"></div>${p.via.replace('推薦','')}</div>
+        <div class="btn-like${liked.has(p.id)?' liked':''}" onclick="toggleLike(event,${p.id})">
+          ${liked.has(p.id)?'⚡':'○'}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function getFiltered(){
+  let list = PEOPLE;
+  const q = document.getElementById('search-inp').value.trim().toLowerCase();
+  if(activeChip!=='全部') list = list.filter(p=>p.cats.includes(activeChip));
+  if(q) list = list.filter(p=>(p.name+p.role+p.tags.join('')+p.bio).toLowerCase().includes(q));
+  return list;
+}
+
+function setChip(el,cat){
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  activeChip=cat;
+  renderCards(getFiltered());
+}
+
+function filterCards(q){
+  renderCards(getFiltered());
+}
+
+// ── Sheet ──
+function openSheet(id){
+  sheetList = getFiltered();
+  sheetIndex = sheetList.findIndex(x=>x.id===id);
+  if(sheetIndex < 0) sheetIndex = 0;
+  renderSheet();
+  document.getElementById('sheet-overlay').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+
+function renderSheet(){
+  const p = sheetList[sheetIndex];
+  if(!p) return;
+  currentPerson = p;
+  document.getElementById('s-cover').innerHTML=`<div class="pcard-cover-inner ${p.grad}" style="width:100%;height:100%;font-size:72px">${p.emoji}</div>`;
+  document.getElementById('s-name').textContent=p.name;
+  document.getElementById('s-role').textContent=p.role;
+  document.getElementById('s-tags').innerHTML=p.tags.map((t,i)=>`<span class="sheet-tag${i===0?' accent':''}">${t}</span>`).join('');
+  document.getElementById('s-bio').textContent=p.bio;
+  document.getElementById('s-works').innerHTML=p.works.map(w=>`<div class="work-thumb">${w}</div>`).join('');
+  document.getElementById('s-via').innerHTML=`🔒 透過 <b>${p.via}</b> 連結，對方確認後才會公開聯絡方式`;
+
+  // progress dots
+  const maxDots = 8;
+  const prog = document.getElementById('s-progress');
+  if(sheetList.length <= 1){
+    prog.innerHTML='';
+  } else if(sheetList.length <= maxDots){
+    prog.innerHTML = sheetList.map((_,i)=>`<div class="sheet-progress-dot${i===sheetIndex?' active':''}"></div>`).join('');
+  } else {
+    prog.innerHTML = `<div style="font-size:11px;color:var(--muted)">${sheetIndex+1} / ${sheetList.length}</div>`;
+  }
+
+  document.getElementById('s-nav-prev').classList.toggle('disabled', sheetIndex<=0);
+  document.getElementById('s-nav-next').classList.toggle('disabled', sheetIndex>=sheetList.length-1);
+
+  // reset scroll
+  document.getElementById('sheet').scrollTop = 0;
+}
+
+function navSheet(dir){
+  const next = sheetIndex + dir;
+  if(next < 0 || next >= sheetList.length) return;
+  sheetIndex = next;
+  const sheetEl = document.getElementById('sheet');
+  sheetEl.style.transition = 'opacity .12s';
+  sheetEl.style.opacity = '0';
+  setTimeout(()=>{
+    renderSheet();
+    sheetEl.style.opacity = '1';
+  }, 120);
+}
+
+function closeSheet(e){
+  if(!e||e.target===document.getElementById('sheet-overlay')){
+    document.getElementById('sheet-overlay').classList.remove('show');
+    document.body.style.overflow='';
+  }
+}
+function sendRequest(){
+  if(!currentPerson) return;
+  requests.push(currentPerson);
+  renderRequests();
+  closeSheet();
+  showToast(`✓ 已向 ${currentPerson.name} 發送引薦請求`);
+  // badge on nav
+  document.getElementById('nav-connect').querySelector('.nav-icon').textContent='🔴';
+}
+function saveCard(){
+  showToast('已收藏');
+}
+
+// ── Like ──
+function toggleLike(e,id){
+  e.stopPropagation();
+  const btn = e.currentTarget;
+  if(liked.has(id)){liked.delete(id);btn.textContent='○';btn.classList.remove('liked');}
+  else{liked.add(id);btn.textContent='⚡';btn.classList.add('liked');showToast('已標記感興趣');}
+}
+
+// ── Requests ──
+function renderRequests(){
+  const list=document.getElementById('req-list');
+  const empty=document.getElementById('connect-empty');
+  document.getElementById('my-conn-count').textContent=requests.length;
+  if(!requests.length){list.innerHTML='';empty.style.display='flex';return;}
+  empty.style.display='none';
+  list.innerHTML=requests.map((p,i)=>`
+    <div class="req-card" id="req-${i}">
+      <div class="req-ava">${p.emoji}</div>
+      <div class="req-info">
+        <div class="req-name">${p.name}</div>
+        <div class="req-desc">${p.role} · ${p.via}</div>
+      </div>
+      <div class="req-actions">
+        <button class="btn-accept" onclick="acceptReq(${i})">確認</button>
+        <button class="btn-decline" onclick="declineReq(${i})">拒絕</button>
+      </div>
+    </div>
+  `).join('');
+}
+function acceptReq(i){
+  const p=requests[i];
+  showToast(`🎉 成功與 ${p.name} 建立連結！`);
+  requests.splice(i,1);
+  renderRequests();
+  if(!requests.length) document.getElementById('nav-connect').querySelector('.nav-icon').textContent='🤝';
+}
+function declineReq(i){
+  requests.splice(i,1);
+  renderRequests();
+  if(!requests.length) document.getElementById('nav-connect').querySelector('.nav-icon').textContent='🤝';
+}
+
+// ── Nav ──
+function switchTab(tab){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('screen-'+tab).classList.add('active');
+  document.getElementById('nav-'+tab).classList.add('active');
+  if(tab==='connect') renderRequests();
+}
+
+// ── Toast ──
+let tt;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// Init
+renderCards(PEOPLE);
+renderRequests();
+
+// ── Touch swipe on sheet ──
+(function(){
+  const sheet = document.getElementById('sheet');
+  let startX=0, startY=0, tracking=false;
+  sheet.addEventListener('touchstart', e=>{
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    tracking = true;
+  }, {passive:true});
+  sheet.addEventListener('touchend', e=>{
+    if(!tracking) return;
+    tracking = false;
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)*1.5){
+      if(dx < 0) navSheet(1); else navSheet(-1);
+    }
+  }, {passive:true});
+})();
+</script>
+</body>
+</html>
