@@ -26,6 +26,31 @@
   --card-w:340px;
 }
 
+/* ── Loading Screen ── */
+#loading-screen{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:18px;
+  transition:opacity .5s ease, visibility .5s ease;
+}
+#loading-screen.fade-out{
+  opacity:0;visibility:hidden;pointer-events:none;
+}
+.load-ring{
+  width:54px;height:54px;border-radius:50%;
+  border:3px solid rgba(200,240,74,0.15);
+  border-top-color:var(--accent);
+  box-shadow:0 0 18px rgba(200,240,74,0.35);
+  animation:loadspin .9s linear infinite;
+}
+@keyframes loadspin{to{transform:rotate(360deg)}}
+.load-text{
+  font-size:13px;letter-spacing:1.5px;color:var(--sub);
+  font-weight:500;
+}
+.load-text span{color:var(--accent);font-weight:700;}
+
 html,body{
   height:100%;
   background:var(--bg);
@@ -212,6 +237,33 @@ html,body{
   letter-spacing:0.5px;
 }
 
+/* ── Status badge (breathing dot) ── */
+.status-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(0,0,0,0.55);
+  backdrop-filter:blur(4px);
+  font-size:9px;font-weight:700;
+  padding:3px 8px;border-radius:20px;
+  letter-spacing:0.3px;
+  color:var(--text);
+  white-space:nowrap;
+}
+.status-dot{
+  width:6px;height:6px;border-radius:50%;
+  flex-shrink:0;
+  animation:breathe 1.6s ease-in-out infinite;
+}
+@keyframes breathe{
+  0%,100%{opacity:1;transform:scale(1);}
+  50%{opacity:0.4;transform:scale(0.75);}
+}
+.status-dot.open{background:#4ade80;box-shadow:0 0 6px #4ade80;}
+.status-dot.full{background:#ff5f5f;box-shadow:0 0 6px #ff5f5f;}
+.status-dot.seeking{background:#fbbf24;box-shadow:0 0 6px #fbbf24;}
+.status-badge.open{color:#4ade80;}
+.status-badge.full{color:#ff8a8a;}
+.status-badge.seeking{color:#fbbf24;}
+
 .pcard-body{padding:10px 11px 12px;}
 .pcard-name{font-size:13px;font-weight:700;margin-bottom:2px;}
 .pcard-role{font-size:11px;color:var(--sub);margin-bottom:8px;line-height:1.3;}
@@ -347,6 +399,62 @@ html,body{
 }
 .btn-save-sheet:hover{border-color:var(--accent);}
 
+.btn-ask-intro{
+  width:100%;margin-top:8px;
+  background:var(--surface2);border:1.5px dashed var(--border);
+  color:var(--sub);border-radius:12px;padding:11px;
+  font-size:12.5px;font-family:inherit;cursor:pointer;
+  transition:border-color .15s, color .15s;
+}
+.btn-ask-intro:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ── Intro Modal ── */
+.intro-modal-overlay{
+  position:fixed;inset:0;z-index:400;
+  background:rgba(0,0,0,0.65);
+  backdrop-filter:blur(3px);
+  display:none;align-items:center;justify-content:center;
+  padding:20px;
+}
+.intro-modal-overlay.show{display:flex;}
+.intro-modal{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  max-width:380px;width:100%;
+  padding:22px;
+  animation:slideUp .2s ease;
+}
+.intro-modal-title{
+  font-size:14px;font-weight:700;margin-bottom:4px;
+}
+.intro-modal-sub{
+  font-size:11px;color:var(--muted);margin-bottom:14px;
+}
+.intro-modal-text{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:14px;
+  font-size:12.5px;line-height:1.7;
+  color:var(--text);
+  margin-bottom:14px;
+  white-space:pre-wrap;
+}
+.intro-modal-actions{display:flex;gap:8px;}
+.btn-copy{
+  flex:1;background:var(--accent);color:#0d0d0f;
+  border:none;border-radius:10px;padding:11px;
+  font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;
+  transition:opacity .15s;
+}
+.btn-copy.copied{background:#4ade80;}
+.btn-close-intro{
+  background:var(--surface2);color:var(--sub);
+  border:1px solid var(--border);border-radius:10px;
+  padding:11px 16px;font-size:13px;font-family:inherit;cursor:pointer;
+}
+
 /* ── Connect screen ── */
 #screen-connect{padding:20px 16px;}
 .connect-empty{
@@ -438,6 +546,12 @@ html,body{
 </head>
 <body>
 
+<div id="loading-screen">
+  <div class="load-ring"></div>
+  <div class="load-text">Nexus5 - <span>Connecting People...</span></div>
+</div>
+
+
 <!-- Top bar -->
 <header class="topbar">
   <div class="topbar-logo">N<span>5</span></div>
@@ -527,6 +641,7 @@ html,body{
     <div class="sheet-main">
       <div class="sheet-name" id="s-name"></div>
       <div class="sheet-role" id="s-role"></div>
+      <div id="s-status" style="margin-bottom:12px;"></div>
       <div class="sheet-tags" id="s-tags"></div>
       <div class="sheet-bio" id="s-bio"></div>
       <div class="sheet-section">作品集</div>
@@ -536,6 +651,20 @@ html,body{
         <button class="btn-connect-sheet" onclick="sendRequest()">🤝 透過朋友引薦認識</button>
         <div class="btn-save-sheet" onclick="saveCard()">🔖</div>
       </div>
+      <button class="btn-ask-intro" onclick="openIntroModal()">✉️ 生成請朋友引薦的話術</button>
+    </div>
+  </div>
+</div>
+
+<!-- Ask for Intro Modal -->
+<div class="intro-modal-overlay" id="intro-modal-overlay" onclick="closeIntroModal(event)">
+  <div class="intro-modal">
+    <div class="intro-modal-title">✉️ 求引薦話術</div>
+    <div class="intro-modal-sub">複製這段文字，傳給你們的共同朋友</div>
+    <div class="intro-modal-text" id="intro-modal-text"></div>
+    <div class="intro-modal-actions">
+      <button class="btn-copy" id="btn-copy-intro" onclick="copyIntroText()">📋 一鍵複製</button>
+      <button class="btn-close-intro" onclick="closeIntroModal()">關閉</button>
     </div>
   </div>
 </div>
@@ -551,7 +680,7 @@ const PEOPLE = [
     tags:['品牌識別','插畫','草創友善'],
     bio:'幫 10+ 個台灣草創品牌從零建立視覺系統。喜歡那種還在摸索自己味道的小團隊，一起找出來很有趣。',
     works:['✏️','🎭','🖼️'],
-    via:'林雅婷推薦', openTo:'接案', cats:['設計','品牌'],
+    via:'林雅婷推薦', openTo:'接案', status:'open', cats:['設計','品牌'],
   },
   {
     id:2, emoji:'📸', grad:'g2',
@@ -559,7 +688,7 @@ const PEOPLE = [
     tags:['商品攝影','人像','小品牌'],
     bio:'接過超商、夜市小吃、獨立服裝品牌的拍攝案。小預算也能聊，重點是做出有感覺的東西。',
     works:['📷','🌆','👗'],
-    via:'陳建宏推薦', openTo:'接案', cats:['攝影'],
+    via:'陳建宏推薦', openTo:'接案', status:'full', cats:['攝影'],
   },
   {
     id:3, emoji:'💻', grad:'g3',
@@ -567,7 +696,7 @@ const PEOPLE = [
     tags:['React','Node.js','MVP開發'],
     bio:'幫三個草創團隊從概念做到上線，最快六週。想找長期合作的技術合夥人角色，不只是接案。',
     works:['🛠️','📱','⚡'],
-    via:'高志明推薦', openTo:'合作', cats:['開發'],
+    via:'高志明推薦', openTo:'合作', status:'seeking', cats:['開發'],
   },
   {
     id:4, emoji:'🎵', grad:'g4',
@@ -575,7 +704,7 @@ const PEOPLE = [
     tags:['廣告配樂','獨立音樂','聲音品牌'],
     bio:'做廣告配樂也做獨立創作，正在找想一起做聲音品牌的視覺創作者或導演合作。',
     works:['🎧','🎹','🎬'],
-    via:'吳宗翰推薦', openTo:'合作', cats:['音樂'],
+    via:'吳宗翰推薦', openTo:'合作', status:'seeking', cats:['音樂'],
   },
   {
     id:5, emoji:'🎭', grad:'g5',
@@ -583,7 +712,7 @@ const PEOPLE = [
     tags:['雜技','街頭表演','活動演出'],
     bio:'從西門町到駁二都表演過，也接企業尾牙和市集活動。有品牌想跨界合作的可以聊。',
     works:['🤹','🎪','✨'],
-    via:'黃宇軒推薦', openTo:'接案', cats:['表演'],
+    via:'黃宇軒推薦', openTo:'接案', status:'open', cats:['表演'],
   },
   {
     id:6, emoji:'✍️', grad:'g6',
@@ -591,9 +720,15 @@ const PEOPLE = [
     tags:['社群文案','品牌故事','新創'],
     bio:'專門幫那種「東西很好但不知道怎麼說」的品牌找到自己的語氣。做過食品、服裝、軟體新創。',
     works:['📝','💬','🏷️'],
-    via:'林雅婷推薦', openTo:'接案', cats:['文案','品牌'],
+    via:'林雅婷推薦', openTo:'接案', status:'open', cats:['文案','品牌'],
   },
 ];
+
+const STATUS_MAP = {
+  open:    { label:'開放接案與合作中', cls:'open' },
+  full:    { label:'專案滿載，僅限交流', cls:'full' },
+  seeking: { label:'尋找共同創辦人/夥伴', cls:'seeking' },
+};
 
 let liked = new Set();
 let requests = [];
@@ -613,7 +748,9 @@ function renderCards(people){
     <div class="pcard" style="animation-delay:${i*0.05}s" onclick="openSheet(${p.id})">
       <div class="pcard-cover">
         <div class="pcard-cover-inner ${p.grad}">
-          <div class="open-to" style="position:static;align-self:flex-end;">${p.openTo==='接案'?'💼 接案':'🤝 找合夥'}</div>
+          <div class="status-badge ${STATUS_MAP[p.status].cls}" style="align-self:flex-end;">
+            <span class="status-dot ${STATUS_MAP[p.status].cls}"></span>${STATUS_MAP[p.status].label}
+          </div>
           <div class="pcard-works-strip">
             ${p.works.map(w=>`<div class="wmini">${w}</div>`).join('')}
           </div>
@@ -677,6 +814,7 @@ function renderSheet(){
   document.getElementById('s-cover').innerHTML=`<div class="pcard-cover-inner ${p.grad}" style="width:100%;height:100%;font-size:72px">${p.emoji}</div>`;
   document.getElementById('s-name').textContent=p.name;
   document.getElementById('s-role').textContent=p.role;
+  document.getElementById('s-status').innerHTML=`<div class="status-badge ${STATUS_MAP[p.status].cls}" style="display:inline-flex;"><span class="status-dot ${STATUS_MAP[p.status].cls}"></span>${STATUS_MAP[p.status].label}</div>`;
   document.getElementById('s-tags').innerHTML=p.tags.map((t,i)=>`<span class="sheet-tag${i===0?' accent':''}">${t}</span>`).join('');
   document.getElementById('s-bio').textContent=p.bio;
   document.getElementById('s-works').innerHTML=p.works.map(w=>`<div class="work-thumb">${w}</div>`).join('');
@@ -730,6 +868,55 @@ function sendRequest(){
 }
 function saveCard(){
   showToast('已收藏');
+}
+
+// ── Ask for Intro Modal ──
+function buildIntroText(p){
+  const templates = [
+    `嗨！我在 Nexus5 上看到你推薦的 ${p.name}（${p.role}），覺得他的「${p.tags[0]}」滿吸引我的 👀\n\n可以幫我引薦一下嗎？不會佔用你太多時間，我自己會直接跟他聊～先謝謝你！`,
+    `欸欸，我在找 ${p.tags[0]} 相關的人，剛好看到 ${p.name} 是你推薦的強者朋友 🙌\n\n方便幫我牽個線嗎？我保證不會煩你，聊完就自己跟他對接！`,
+    `Hi～我在 Nexus5 上看到 ${p.name}，覺得跟我現在在做的事很match（${p.tags.slice(0,2).join('、')}）\n\n聽說你們認識，可以幫忙引薦一下嗎？感激不盡 🙏`,
+  ];
+  // pick template based on person id for variety but deterministic
+  return templates[p.id % templates.length];
+}
+
+function openIntroModal(){
+  if(!currentPerson) return;
+  document.getElementById('intro-modal-text').textContent = buildIntroText(currentPerson);
+  const btn = document.getElementById('btn-copy-intro');
+  btn.textContent = '📋 一鍵複製';
+  btn.classList.remove('copied');
+  document.getElementById('intro-modal-overlay').classList.add('show');
+}
+function closeIntroModal(e){
+  if(!e || e.target===document.getElementById('intro-modal-overlay')){
+    document.getElementById('intro-modal-overlay').classList.remove('show');
+  }
+}
+function copyIntroText(){
+  const text = document.getElementById('intro-modal-text').textContent;
+  const btn = document.getElementById('btn-copy-intro');
+  const doFallback = () => {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand('copy'); }catch(err){}
+    document.body.removeChild(ta);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).catch(doFallback);
+  } else {
+    doFallback();
+  }
+  btn.textContent = '✓ 已複製';
+  btn.classList.add('copied');
+  setTimeout(()=>{
+    btn.textContent = '📋 一鍵複製';
+    btn.classList.remove('copied');
+  }, 2000);
 }
 
 // ── Like ──
@@ -794,6 +981,11 @@ function showToast(msg){
 // Init
 renderCards(PEOPLE);
 renderRequests();
+
+// ── Loading screen ──
+setTimeout(()=>{
+  document.getElementById('loading-screen').classList.add('fade-out');
+}, 1500);
 
 // ── Touch swipe on sheet ──
 (function(){
