@@ -4,26 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Nexus5 · 探索</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='24' y2='24'%3E%3Cstop offset='0' stop-color='%231B4FFF'/%3E%3Cstop offset='1' stop-color='%237C5CFF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='24' height='24' rx='6' fill='url(%23g)'/%3E%3Ccircle cx='12' cy='7' r='2.3' fill='white'/%3E%3Ccircle cx='7' cy='16' r='2.3' fill='white'/%3E%3Ccircle cx='17' cy='16' r='2.3' fill='white'/%3E%3Cpath d='M12 7L7 16M12 7L17 16M7 16L17 16' stroke='white' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 
 :root{
-  --bg:#15121c;
-  --surface:#1e1a28;
-  --surface2:#262030;
-  --surface3:#322b3f;
-  --border:#352d42;
-  --text:#f5f2f8;
-  --sub:#a89ebb;
-  --muted:#665d75;
-  --tag-bg:#2a2435;
-  --brand:#ff6b6b;
-  --brand2:#ffa94d;
-  --green:#4ade80;
-  --red:#ff5f5f;
-  --amber:#fbbf24;
+  --bg:#F5F6FA;
+  --surface:#FFFFFF;
+  --surface2:#F4F5F8;
+  --surface3:#EAEDF2;
+  --border:#E3E6EC;
+  --text:#11151C;
+  --sub:#6B7280;
+  --muted:#8890A0;
+  --tag-bg:#F1F3F6;
+  --brand:#1B4FFF;
+  --brand2:#7C5CFF;
+  --on-brand:#FFFFFF;
+  --green:#16A34A;
+  --green-glow:#34D399;
+  --red:#DC2626;
+  --red-glow:#FF8585;
+  --amber:#D97706;
+  --amber-glow:#FBBF24;
   --radius-lg:20px;
   --radius-md:14px;
   --radius-sm:9px;
@@ -38,9 +43,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
   position:fixed;inset:0;pointer-events:none;
   background-color:var(--bg);
   background-image:
-    radial-gradient(circle at 12% 6%, rgba(255,107,107,0.18), transparent 38%),
-    radial-gradient(circle at 88% 16%, rgba(77,163,255,0.13), transparent 36%),
-    radial-gradient(circle at 50% 100%, rgba(180,122,255,0.11), transparent 42%);
+    radial-gradient(circle at 10% 4%, rgba(27,79,255,0.07), transparent 38%),
+    radial-gradient(circle at 90% 14%, rgba(124,92,255,0.08), transparent 38%),
+    radial-gradient(circle at 50% 100%, rgba(27,79,255,0.05), transparent 42%);
 }
 
 /* ── Loading Screen ── */
@@ -52,13 +57,16 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
   transition:opacity .5s ease, visibility .5s ease;
 }
 #loading-screen.fade-out{opacity:0;visibility:hidden;pointer-events:none;}
+.load-mark-wrap{position:relative;width:50px;height:50px;}
 .load-ring{
-  width:50px;height:50px;border-radius:50%;
+  position:absolute;inset:0;
+  border-radius:50%;
   background:conic-gradient(from 0deg, var(--brand), var(--brand2), transparent 80%);
   -webkit-mask:radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px));
   mask:radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px));
   animation:loadspin .9s linear infinite;
 }
+.load-mark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);}
 @keyframes loadspin{to{transform:rotate(360deg)}}
 .load-text{font-family:var(--f-display);font-size:13px;letter-spacing:.5px;color:var(--sub);font-weight:600;}
 .load-text b{font-weight:700;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
@@ -66,7 +74,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 /* ── Bottom Nav ── */
 .nav{
   position:fixed;bottom:0;left:0;right:0;height:64px;
-  background:rgba(30,26,40,0.92);backdrop-filter:blur(10px);
+  background:rgba(255,255,255,0.85);backdrop-filter:blur(10px);
   border-top:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-around;
   z-index:100;padding-bottom:env(safe-area-inset-bottom);
@@ -93,7 +101,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
   background:linear-gradient(to bottom,var(--bg) 65%,transparent);
   z-index:100;
 }
-.topbar-logo{font-family:var(--f-display);font-size:18px;font-weight:700;letter-spacing:-.3px;color:var(--text);}
+.topbar-logo{display:flex;align-items:center;gap:7px;font-family:var(--f-display);font-size:17px;font-weight:700;letter-spacing:-.3px;color:var(--text);flex-shrink:0;}
+.topbar-logo svg{flex-shrink:0;}
 .topbar-logo b{font-weight:700;background:linear-gradient(120deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
 .topbar-search{
   flex:1;margin:0 12px;background:var(--surface2);border:1px solid var(--border);
@@ -120,8 +129,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 
 .intro-banner{
   display:flex;align-items:center;gap:10px;
-  background:rgba(255,107,107,0.08);
-  border:1px solid rgba(255,107,107,0.22);
+  background:rgba(27,79,255,0.06);
+  border:1px solid rgba(27,79,255,0.18);
   border-radius:var(--radius-md);
   padding:10px 12px;margin-bottom:12px;
   font-size:11.5px;color:var(--sub);line-height:1.5;
@@ -143,10 +152,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 
 .pcard{
   background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);
-  overflow:hidden;cursor:pointer;transition:transform .15s, border-color .15s;
+  overflow:hidden;cursor:pointer;transition:transform .15s, border-color .15s, box-shadow .15s;
   display:flex;flex-direction:column;animation:rise .25s ease both;
+  box-shadow:0 1px 2px rgba(17,21,28,0.04), 0 1px 8px rgba(17,21,28,0.04);
 }
-.pcard:hover{transform:translateY(-2px);}
+.pcard:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(17,21,28,0.08);}
 @keyframes rise{from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)}}
 
 .pcard-cover{position:relative;width:100%;aspect-ratio:16/10;overflow:visible;}
@@ -157,16 +167,16 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
   display:inline-flex;align-items:center;gap:5px;
   background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);
   font-family:var(--f-mono);font-size:9px;font-weight:600;
-  padding:4px 8px;border-radius:20px;letter-spacing:.2px;color:var(--text);white-space:nowrap;
+  padding:4px 8px;border-radius:20px;letter-spacing:.2px;color:#fff;white-space:nowrap;
 }
 .status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;animation:breathe 1.6s ease-in-out infinite;}
 @keyframes breathe{0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.4;transform:scale(.75);}}
-.status-dot.open{background:var(--green);box-shadow:0 0 6px var(--green);}
-.status-dot.full{background:var(--red);box-shadow:0 0 6px var(--red);}
-.status-dot.seeking{background:var(--amber);box-shadow:0 0 6px var(--amber);}
-.status-badge.open{color:var(--green);}
-.status-badge.full{color:#ff9b9b;}
-.status-badge.seeking{color:var(--amber);}
+.status-dot.open{background:var(--green-glow);box-shadow:0 0 6px var(--green-glow);}
+.status-dot.full{background:var(--red-glow);box-shadow:0 0 6px var(--red-glow);}
+.status-dot.seeking{background:var(--amber-glow);box-shadow:0 0 6px var(--amber-glow);}
+.status-badge.open{color:var(--green-glow);}
+.status-badge.full{color:var(--red-glow);}
+.status-badge.seeking{color:var(--amber-glow);}
 
 .btn-like{
   position:absolute;top:8px;right:8px;z-index:2;
@@ -186,6 +196,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 }
 
 .pcard-body{padding:28px 12px 13px;}
+.pcard-name-row{display:flex;align-items:center;justify-content:space-between;gap:6px;}
 .pcard-name{font-family:var(--f-display);font-size:14px;font-weight:700;margin-bottom:2px;}
 .pcard-role{font-size:11px;color:var(--sub);margin-bottom:7px;line-height:1.3;}
 .pcard-ref-chip{
@@ -202,7 +213,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 /* ── Detail sheet ── */
 .sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;display:none;align-items:flex-end;backdrop-filter:blur(2px);}
 .sheet-overlay.show{display:flex;}
-.sheet{background:var(--surface);border-radius:20px 20px 0 0;width:100%;max-height:85vh;overflow-y:auto;padding:0 0 40px;animation:slideUp .25s cubic-bezier(.25,.46,.45,.94);}
+.sheet{background:var(--surface);border-radius:20px 20px 0 0;width:100%;max-height:85vh;overflow-y:auto;padding:0 0 40px;animation:slideUp .25s cubic-bezier(.25,.46,.45,.94);box-shadow:0 -8px 30px rgba(17,21,28,0.12);}
 @keyframes slideUp{from{transform:translateY(100%)} to{transform:translateY(0)}}
 .sheet-handle{width:36px;height:4px;border-radius:2px;background:var(--border);margin:12px auto 0;}
 .sheet-cover{position:relative;width:100%;height:180px;display:flex;align-items:center;justify-content:center;font-size:64px;margin-top:12px;overflow:hidden;}
@@ -219,6 +230,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 
 /* referral chain — signature element */
 .chain-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 14px 12px;margin-bottom:18px;}
+.chain-box.cold{background:transparent;border:1px dashed var(--border);padding:12px 14px;}
+.chain-summary{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.chain-summary-text{font-size:12.5px;color:var(--text);line-height:1.5;}
+.chain-summary-text b{color:var(--brand);}
+.chain-expand-btn{flex-shrink:0;background:none;border:1px solid var(--border);color:var(--sub);border-radius:8px;padding:5px 10px;font-size:11px;font-family:var(--f-body);cursor:pointer;transition:border-color .15s,color .15s;white-space:nowrap;}
+.chain-expand-btn:hover{border-color:var(--brand);color:var(--brand);}
+.chain-detail{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);}
+.chain-detail.show{display:block;}
 .chain-path{display:flex;align-items:flex-start;gap:0;margin-bottom:10px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;}
 .chain-path::-webkit-scrollbar{display:none;}
 .chain-col{display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;}
@@ -229,8 +248,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 }
 .chain-node.you{border-color:var(--muted);color:var(--text);}
 .chain-node-label{font-size:9px;font-family:var(--f-mono);color:var(--muted);max-width:42px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.chain-line{flex:0 0 18px;height:2px;background:repeating-linear-gradient(90deg, var(--border) 0 5px, transparent 5px 9px);margin:16px 4px 0;}
-.chain-hop-tag{display:inline-block;font-family:var(--f-mono);font-size:9.5px;font-weight:600;letter-spacing:.3px;color:var(--brand);background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.25);padding:3px 9px;border-radius:12px;margin-bottom:8px;}
+.chain-line{flex:0 0 18px;height:2px;background:repeating-linear-gradient(90deg, var(--muted) 0 5px, transparent 5px 9px);margin:16px 4px 0;}
+.chain-hop-tag{display:inline-block;font-family:var(--f-mono);font-size:9.5px;font-weight:600;letter-spacing:.3px;color:var(--brand);background:rgba(27,79,255,0.08);border:1px solid rgba(27,79,255,0.22);padding:3px 9px;border-radius:12px;margin-bottom:8px;}
 .chain-note{font-size:11.5px;color:var(--sub);line-height:1.5;display:flex;align-items:flex-start;gap:6px;}
 .chain-note svg{flex-shrink:0;margin-top:1px;width:13px;height:13px;color:var(--muted);}
 
@@ -241,7 +260,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
   z-index:10;transition:background .15s, opacity .15s;
 }
 .sheet-nav svg{width:16px;height:16px;}
-.sheet-nav:hover{background:rgba(255,107,107,0.3);}
+.sheet-nav:hover{background:rgba(255,255,255,0.3);}
 .sheet-nav.prev{left:14px;}
 .sheet-nav.next{right:14px;}
 .sheet-nav.disabled{opacity:.25;pointer-events:none;}
@@ -251,7 +270,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 
 .sheet-actions{display:flex;gap:10px;}
 .btn-connect-sheet{
-  flex:1;background:linear-gradient(120deg,var(--brand),var(--brand2));color:#1a1420;
+  flex:1;background:linear-gradient(120deg,var(--brand),var(--brand2));color:var(--on-brand);
   border:none;border-radius:12px;padding:14px;display:flex;align-items:center;justify-content:center;gap:7px;
   font-size:14px;font-weight:700;font-family:var(--f-body);cursor:pointer;transition:opacity .15s;
 }
@@ -276,8 +295,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .intro-modal-sub{font-size:11px;color:var(--muted);margin-bottom:14px;}
 .intro-modal-text{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:12.5px;line-height:1.7;color:var(--text);margin-bottom:14px;white-space:pre-wrap;}
 .intro-modal-actions{display:flex;gap:8px;}
-.btn-copy{flex:1;background:linear-gradient(120deg,var(--brand),var(--brand2));color:#1a1420;border:none;border-radius:10px;padding:11px;font-size:13px;font-weight:700;font-family:var(--f-body);cursor:pointer;transition:opacity .15s;display:flex;align-items:center;justify-content:center;gap:6px;}
-.btn-copy.copied{background:var(--green);color:#0d0d0f;}
+.btn-copy{flex:1;background:linear-gradient(120deg,var(--brand),var(--brand2));color:var(--on-brand);border:none;border-radius:10px;padding:11px;font-size:13px;font-weight:700;font-family:var(--f-body);cursor:pointer;transition:opacity .15s;display:flex;align-items:center;justify-content:center;gap:6px;}
+.btn-copy.copied{background:var(--green);color:var(--on-brand);}
 .btn-close-intro{background:var(--surface2);color:var(--sub);border:1px solid var(--border);border-radius:10px;padding:11px 16px;font-size:13px;font-family:var(--f-body);cursor:pointer;}
 
 /* ── Connect screen ── */
@@ -285,15 +304,32 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .connect-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:55vh;gap:12px;color:var(--muted);text-align:center;}
 .connect-empty svg{width:42px;height:42px;opacity:.3;}
 .connect-empty p{font-size:13px;line-height:1.6;}
-.req-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;}
+.req-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 2px rgba(17,21,28,0.04), 0 1px 8px rgba(17,21,28,0.04);}
 .req-ava{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:21px;background:var(--surface2);flex-shrink:0;border:2px solid var(--border);}
 .req-info{flex:1;min-width:0;}
 .req-name{font-family:var(--f-display);font-size:14px;font-weight:700;margin-bottom:2px;}
 .req-desc{font-size:11px;color:var(--sub);}
 .req-actions{display:flex;gap:6px;flex-shrink:0;}
-.btn-accept{background:linear-gradient(120deg,var(--brand),var(--brand2));color:#1a1420;border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;font-family:var(--f-body);cursor:pointer;}
+.btn-accept{background:linear-gradient(120deg,var(--brand),var(--brand2));color:var(--on-brand);border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;font-family:var(--f-body);cursor:pointer;}
 .btn-decline{background:var(--surface2);color:var(--sub);border:1px solid var(--border);border-radius:8px;padding:7px 12px;font-size:12px;font-family:var(--f-body);cursor:pointer;}
 .section-label{font-family:var(--f-mono);font-size:10.5px;font-weight:600;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;margin:20px 0 10px;}
+
+/* ── Incoming requests: warm (mutual friend) + cold/stranger lane with report ── */
+.incoming-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 2px rgba(17,21,28,0.04), 0 1px 8px rgba(17,21,28,0.04);}
+.incoming-top{display:flex;align-items:center;gap:12px;margin-bottom:9px;}
+.incoming-ava{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:2px solid var(--border);background:var(--surface2);}
+.incoming-info{flex:1;min-width:0;}
+.incoming-name{font-family:var(--f-display);font-size:14px;font-weight:700;}
+.incoming-role{font-size:11px;color:var(--sub);}
+.incoming-warm-tag{font-size:10px;color:var(--brand);font-family:var(--f-mono);margin-top:3px;display:inline-flex;align-items:center;gap:3px;}
+.incoming-note{font-size:12.5px;color:var(--text);line-height:1.55;background:var(--surface2);border-radius:10px;padding:9px 11px;margin-bottom:10px;}
+.incoming-actions{display:flex;gap:6px;}
+.incoming-actions .btn-accept, .incoming-actions .btn-decline{flex:1;}
+.btn-report{flex-shrink:0;background:none;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:7px 11px;font-size:11.5px;font-family:var(--f-body);cursor:pointer;transition:border-color .15s,color .15s;}
+.btn-report:hover{border-color:var(--red);color:var(--red);}
+.incoming-cold-toggle{width:100%;background:var(--surface2);border:1px dashed var(--border);color:var(--sub);border-radius:12px;padding:10px;font-size:12px;font-family:var(--f-body);cursor:pointer;display:none;align-items:center;justify-content:center;gap:6px;margin-bottom:10px;}
+.incoming-cold-list{display:none;}
+.incoming-cold-list.show{display:block;}
 
 /* ── Public referral board (D) ── */
 .board-section{margin-top:24px;}
@@ -313,15 +349,15 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .board-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-size:12.5px;font-family:var(--f-body);outline:none;margin-bottom:10px;resize:none;}
 .board-input:focus{border-color:var(--brand);}
 .board-input::placeholder{color:var(--muted);}
-.board-submit{width:100%;background:linear-gradient(120deg,var(--brand),var(--brand2));color:#1a1420;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700;font-family:var(--f-body);cursor:pointer;}
-.board-post{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:13px 14px;margin-bottom:9px;}
+.board-submit{width:100%;background:linear-gradient(120deg,var(--brand),var(--brand2));color:var(--on-brand);border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700;font-family:var(--f-body);cursor:pointer;}
+.board-post{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:13px 14px;margin-bottom:9px;box-shadow:0 1px 2px rgba(17,21,28,0.04), 0 1px 8px rgba(17,21,28,0.04);}
 .board-post-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
-.board-post-cat{font-size:9px;font-family:var(--f-mono);font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:.3px;}
+.board-post-cat{font-size:9px;font-family:var(--f-mono);font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:.3px;background:var(--tag-bg);color:var(--sub);}
 .board-post-name{font-size:11.5px;color:var(--muted);}
 .board-post-note{font-size:12.5px;color:var(--text);line-height:1.5;margin-bottom:10px;}
 .board-post-action{font-size:12px;font-weight:600;background:var(--surface2);border:1px solid var(--border);color:var(--sub);border-radius:8px;padding:7px 12px;cursor:pointer;font-family:var(--f-body);transition:all .12s;}
 .board-post-action:hover{border-color:var(--brand);color:var(--brand);}
-.board-post-action.done{background:rgba(74,222,128,0.12);border-color:rgba(74,222,128,0.4);color:var(--green);cursor:default;}
+.board-post-action.done{background:rgba(22,163,74,0.1);border-color:rgba(22,163,74,0.35);color:var(--green);cursor:default;}
 .board-post-status{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:6px;}
 .board-post-status.success{color:var(--green);font-weight:600;}
 
@@ -342,14 +378,47 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .stat{text-align:center;}
 .stat-n{font-family:var(--f-mono);font-size:17px;font-weight:600;}
 .stat-l{font-size:10px;color:var(--muted);margin-top:1px;}
-.profile-bio{font-size:13px;color:var(--sub);line-height:1.7;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:16px;}
-.open-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.3);color:var(--brand);font-size:12px;font-weight:700;padding:6px 14px;border-radius:20px;margin-bottom:16px;}
-.open-dot{width:7px;height:7px;border-radius:50%;background:var(--brand);animation:pulse 1.5s infinite;}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.profile-bio{font-size:13px;color:var(--sub);line-height:1.7;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;}
+.profile-bio-edit-btn{background:none;border:1px solid var(--border);color:var(--sub);border-radius:8px;padding:6px 13px;font-size:11.5px;font-family:var(--f-body);cursor:pointer;transition:border-color .15s,color .15s;margin-bottom:16px;display:inline-flex;align-items:center;gap:5px;}
+.profile-bio-edit-btn:hover{border-color:var(--brand);color:var(--brand);}
 .profile-empty{color:var(--muted);font-size:13px;padding:20px 0;text-align:center;line-height:1.6;}
 
+/* ── Profile: referral score + status (merged from uploaded variant) ── */
+.ref-score-box{display:flex;align-items:center;gap:14px;background:rgba(27,79,255,0.06);border:1px solid rgba(27,79,255,0.18);border-radius:var(--radius-md);padding:14px 16px;margin-bottom:18px;}
+.ref-score-n{font-family:var(--f-display);font-size:28px;font-weight:700;color:var(--brand);flex-shrink:0;}
+.ref-score-info{flex:1;}
+.ref-score-label{font-size:12px;font-weight:700;color:var(--brand);margin-bottom:2px;}
+.ref-score-desc{font-size:11.5px;color:var(--sub);line-height:1.5;}
+.status-picker{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;}
+.status-pick-btn{display:inline-flex;align-items:center;gap:6px;background:var(--surface2);border:1px solid var(--border);color:var(--sub);border-radius:20px;padding:7px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:var(--f-body);transition:all .15s;}
+.status-pick-btn.active{font-weight:700;}
+.ref-mini{display:inline-flex;align-items:center;gap:2px;font-family:var(--f-mono);font-size:10px;font-weight:700;color:var(--brand);flex-shrink:0;}
+
+/* ── Edit bio sheet ── */
+.edit-bio-overlay{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.65);backdrop-filter:blur(3px);display:none;align-items:flex-end;}
+.edit-bio-overlay.show{display:flex;}
+.edit-bio-sheet{background:var(--surface);border-radius:20px 20px 0 0;width:100%;padding:0 20px 32px;animation:slideUp .2s ease;}
+.edit-bio-title{font-family:var(--f-display);font-size:15px;font-weight:700;margin:16px 0 14px;}
+.edit-bio-textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:13px;font-size:13px;font-family:var(--f-body);color:var(--text);resize:none;outline:none;line-height:1.6;margin-bottom:12px;transition:border-color .15s;}
+.edit-bio-textarea:focus{border-color:var(--brand);}
+
+/* ── Welcome / onboarding overlay ── */
+.welcome-overlay{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);display:flex;align-items:flex-end;padding:14px;}
+.welcome-overlay.hide{display:none;}
+.welcome-sheet{background:var(--surface);border:1px solid var(--border);border-radius:20px;width:100%;overflow:hidden;animation:slideUp .25s cubic-bezier(.25,.46,.45,.94);}
+.welcome-top{padding:26px 22px 18px;background:linear-gradient(120deg,var(--brand),var(--brand2));display:flex;align-items:center;justify-content:center;gap:10px;}
+.welcome-emoji{width:42px;height:42px;border-radius:13px;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:20px;}
+.welcome-link{width:22px;height:2px;background:rgba(255,255,255,.45);border-radius:2px;}
+.welcome-body{padding:20px 22px 24px;}
+.welcome-title{font-family:var(--f-display);font-size:19px;font-weight:700;margin-bottom:6px;}
+.welcome-sub{font-size:13px;color:var(--sub);line-height:1.6;margin-bottom:18px;}
+.welcome-step{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;}
+.welcome-step-icon{width:34px;height:34px;border-radius:10px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.welcome-step-title{font-size:13px;font-weight:700;margin-bottom:2px;}
+.welcome-step-desc{font-size:11.5px;color:var(--sub);line-height:1.45;}
+
 /* ── Toast ── */
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface3);color:var(--text);font-size:13px;padding:11px 18px;border-radius:30px;border:1px solid var(--border);z-index:500;opacity:0;transition:all .25s;white-space:nowrap;pointer-events:none;}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:#fff;font-size:13px;padding:11px 18px;border-radius:30px;z-index:500;opacity:0;transition:all .25s;white-space:nowrap;pointer-events:none;box-shadow:0 8px 24px rgba(17,21,28,0.18);}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 </style>
 </head>
@@ -358,12 +427,18 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 <div class="ambient-bg"></div>
 
 <div id="loading-screen">
-  <div class="load-ring"></div>
+  <div class="load-mark-wrap">
+    <div class="load-ring"></div>
+    <svg class="load-mark" viewBox="0 0 24 24" width="20" height="20" fill="none"><defs><linearGradient id="logoGradLoad" x1="3" y1="3" x2="21" y2="21"><stop offset="0" stop-color="#1B4FFF"/><stop offset="1" stop-color="#7C5CFF"/></linearGradient></defs><path d="M12 5L5 18M12 5L19 18M5 18L19 18" stroke="url(#logoGradLoad)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="5" r="2.6" fill="url(#logoGradLoad)"/><circle cx="5" cy="18" r="2.6" fill="url(#logoGradLoad)"/><circle cx="19" cy="18" r="2.6" fill="url(#logoGradLoad)"/></svg>
+  </div>
   <div class="load-text">NEXUS5 · <b>Connecting People</b></div>
 </div>
 
 <header class="topbar">
-  <div class="topbar-logo">N<b>5</b></div>
+  <div class="topbar-logo">
+    <svg viewBox="0 0 24 24" width="21" height="21" fill="none"><defs><linearGradient id="logoGradTop" x1="3" y1="3" x2="21" y2="21"><stop offset="0" stop-color="#1B4FFF"/><stop offset="1" stop-color="#7C5CFF"/></linearGradient></defs><path d="M12 5L5 18M12 5L19 18M5 18L19 18" stroke="url(#logoGradTop)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="5" r="2.6" fill="url(#logoGradTop)"/><circle cx="5" cy="18" r="2.6" fill="url(#logoGradTop)"/><circle cx="19" cy="18" r="2.6" fill="url(#logoGradTop)"/></svg>
+    nexus<b>5</b>
+  </div>
   <div class="topbar-search">
     <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-3.8-3.8"/></svg>
     <input type="text" placeholder="搜尋設計師、攝影師、工程師…" id="search-inp" oninput="filterCards(this.value)">
@@ -374,11 +449,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 <div class="screen active" id="screen-explore">
   <div class="intro-banner">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l1.93-1.93a5 5 0 0 0-7.07-7.07L10.5 5.43"/><path d="M14 11a5 5 0 0 0-7.07 0L5 12.93a5 5 0 0 0 7.07 7.07L13.5 18.57"/></svg>
-    <div>所有聯絡方式都<b>透過共同朋友引薦</b>才會公開，先看看誰值得認識。</div>
+    <div>直接發送認識請求就能開始。<b>有共同朋友引薦</b>的話，對方更容易回應你。</div>
   </div>
 
   <div class="chips" id="chips">
-    <button class="chip active" onclick="setChip(this,'全部')">全部</button>
+    <button class="chip active" style="background:rgba(27,79,255,0.1);border-color:#1B4FFF;color:#1B4FFF" onclick="setChip(this,'全部')">全部</button>
     <button class="chip" onclick="setChip(this,'設計')">設計</button>
     <button class="chip" onclick="setChip(this,'開發')">開發</button>
     <button class="chip" onclick="setChip(this,'攝影')">攝影</button>
@@ -393,11 +468,16 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 </div>
 
 <div class="screen" id="screen-connect">
-  <div class="section-label">待確認的引薦</div>
+  <div class="section-label">想認識你的人</div>
+  <div id="incoming-warm-list"></div>
+  <button class="incoming-cold-toggle" id="incoming-cold-toggle" onclick="toggleColdRequests()"></button>
+  <div class="incoming-cold-list" id="incoming-cold-list"></div>
+
+  <div class="section-label">你發出的請求</div>
   <div id="req-list"></div>
   <div class="connect-empty" id="connect-empty" style="display:none">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l1.93-1.93a5 5 0 0 0-7.07-7.07L10.5 5.43"/><path d="M14 11a5 5 0 0 0-7.07 0L5 12.93a5 5 0 0 0 7.07 7.07L13.5 18.57"/></svg>
-    <p>目前沒有待處理的引薦請求<br>去探索頁認識新朋友吧</p>
+    <p>目前沒有待處理的請求<br>去探索頁認識新朋友吧</p>
   </div>
 
   <div class="board-section">
@@ -429,8 +509,23 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
       </div>
     </div>
   </div>
-  <div class="open-badge"><div class="open-dot"></div> 開放合作 &amp; 接案</div>
-  <div class="profile-bio">這裡是你的自介。點擊編輯，告訴大家你能做什麼、在找什麼樣的合作。</div>
+  <div class="ref-score-box">
+    <div class="ref-score-n" id="my-ref-count">0</div>
+    <div class="ref-score-info">
+      <div class="ref-score-label">被推薦次數</div>
+      <div class="ref-score-desc">被推薦越多，你在探索頁排名越前面。每人只有 5 個推薦名額，所以每一個都很珍貴。</div>
+    </div>
+  </div>
+
+  <div class="section-label">開放狀態</div>
+  <div class="status-picker" id="status-picker"></div>
+
+  <div class="profile-bio" id="my-bio-text">還沒有自介，點擊編輯讓大家認識你。</div>
+  <button class="profile-bio-edit-btn" onclick="openEditBio()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    編輯自介
+  </button>
+
   <div class="section-label">我的起點人脈</div>
   <div class="net-note">每多一個連結，引薦路徑就可能變短——這份清單會隨你的連結自動長大。</div>
   <div class="my-network-chips" id="my-network-chips"></div>
@@ -482,7 +577,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
       <div class="sheet-actions">
         <button class="btn-connect-sheet" onclick="sendRequest()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l1.93-1.93a5 5 0 0 0-7.07-7.07L10.5 5.43"/><path d="M14 11a5 5 0 0 0-7.07 0L5 12.93a5 5 0 0 0 7.07 7.07L13.5 18.57"/></svg>
-          透過朋友引薦認識
+          發送認識請求
         </button>
         <div class="btn-save-sheet" onclick="saveCard()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
@@ -511,19 +606,60 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
   </div>
 </div>
 
+<div class="edit-bio-overlay" id="edit-bio-overlay" onclick="closeEditBio(event)">
+  <div class="edit-bio-sheet">
+    <div class="sheet-handle"></div>
+    <div class="edit-bio-title">編輯我的自介</div>
+    <textarea class="edit-bio-textarea" id="edit-bio-textarea" rows="4" placeholder="告訴大家你能做什麼、現在在找什麼樣的合作…"></textarea>
+    <button class="btn-connect-sheet" style="width:100%" onclick="saveBio()">儲存</button>
+  </div>
+</div>
+
+<div class="welcome-overlay" id="welcome-overlay">
+  <div class="welcome-sheet">
+    <div class="welcome-top">
+      <div class="welcome-emoji">🙂</div>
+      <div class="welcome-link"></div>
+      <div class="welcome-emoji" style="background:rgba(255,255,255,.15)">🎨</div>
+      <div class="welcome-link"></div>
+      <div class="welcome-emoji" style="background:rgba(255,255,255,.1)">💻</div>
+    </div>
+    <div class="welcome-body">
+      <div class="welcome-title">歡迎來到 Nexus5</div>
+      <div class="welcome-sub">認識值得信任的創作者——直接發送認識請求就能開始，有共同朋友的話，對方更容易回應你。</div>
+      <div class="welcome-step">
+        <div class="welcome-step-icon">🔍</div>
+        <div><div class="welcome-step-title">探索各領域人才</div><div class="welcome-step-desc">設計師、工程師、攝影師、音樂人——依職業與狀態篩選，找到現在可以合作的人。</div></div>
+      </div>
+      <div class="welcome-step">
+        <div class="welcome-step-icon">🔗</div>
+        <div><div class="welcome-step-title">直接發請求，引薦是加分</div><div class="welcome-step-desc">不需要等別人引薦才能開始。有共同朋友時，系統會主動提示，請朋友幫忙引薦能讓對方更容易回應。</div></div>
+      </div>
+      <div class="welcome-step">
+        <div class="welcome-step-icon">⭐</div>
+        <div><div class="welcome-step-title">推薦名額稀缺，每個都珍貴</div><div class="welcome-step-desc">每人只有 5 個名額。被推薦越多，你在探索頁排名越前面。</div></div>
+      </div>
+      <button class="btn-connect-sheet" style="width:100%" onclick="dismissWelcome()">開始探索</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
-// ── Category identity system ──
-const CATS = {
-  '設計':{c:'#FF7A59'}, '開發':{c:'#4DA3FF'}, '攝影':{c:'#FFC24D'}, '音樂':{c:'#B47AFF'},
-  '表演':{c:'#FF4FA3'}, '品牌':{c:'#4DDFC4'}, '文案':{c:'#C9E94D'}, '草創':{c:'#8C8CFF'},
-};
+// ── Brand identity: ONE primary + ONE secondary color, no per-category hues.
+// Cards alternate which color leads, so the grid still has rhythm/variety
+// without breaking the "two colors only" rule. ──
+const CATEGORIES = ['設計','開發','攝影','音樂','表演','品牌','文案','草創'];
+const BRAND = '#1B4FFF';
+const BRAND2 = '#7C5CFF';
 function hexToRgb(h){h=h.replace('#','');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
 function rgba(h,a){const[r,g,b]=hexToRgb(h);return `rgba(${r},${g},${b},${a})`;}
 function darken(h,amt){const[r,g,b]=hexToRgb(h);const f=c=>Math.round(c*(1-amt));return `rgb(${f(r)},${f(g)},${f(b)})`;}
-function catColor(cat){return (CATS[cat]||{c:'#8a8a96'}).c;}
-function primaryColor(p){return catColor(p.cats[0]);}
+// Which of the two brand colors leads this card's gradient (alternates by id)
+function accentPair(id){ return id%2===0 ? [BRAND,BRAND2] : [BRAND2,BRAND]; }
+function primaryColor(p){ return accentPair(p.id)[0]; }
+const STAR_SVG = `<svg viewBox="0 0 24 24" width="9" height="9" fill="currentColor" style="display:inline;vertical-align:-1px"><path d="M12 2.5l2.9 6.5 7.1.6-5.4 4.7 1.7 6.9L12 17.6 5.7 21.2l1.7-6.9L2 9.6l7.1-.6z"/></svg>`;
 
 // ── Connection graph + BFS (machanism B+A: paths are found through whatever
 // connections already exist — including ones the platform made for you) ──
@@ -565,27 +701,31 @@ const PEOPLE = [
   {id:1, emoji:'🎨', name:'Ava Wu', role:'品牌視覺設計師 · 台北',
    tags:['品牌識別','插畫','草創友善'],
    bio:'幫 10+ 個台灣草創品牌從零建立視覺系統。喜歡那種還在摸索自己味道的小團隊，一起找出來很有趣。',
-   works:['✏️','🎭','🖼️'], via:'林雅婷', openTo:'接案', status:'open', cats:['設計','品牌']},
+   works:['✏️','🎭','🖼️'], via:'林雅婷', openTo:'接案', status:'open', cats:['設計','品牌'], refs:7},
   {id:2, emoji:'📸', name:'Ken Tsai', role:'商業攝影 · 台南',
    tags:['商品攝影','人像','小品牌'],
    bio:'接過超商、夜市小吃、獨立服裝品牌的拍攝案。小預算也能聊，重點是做出有感覺的東西。',
-   works:['📷','🌆','👗'], via:'陳建宏', openTo:'接案', status:'full', cats:['攝影']},
+   works:['📷','🌆','👗'], via:'陳建宏', openTo:'接案', status:'full', cats:['攝影'], refs:4},
   {id:3, emoji:'💻', name:'Alex Lin', role:'全端工程師 · 新竹',
    tags:['React','Node.js','MVP開發'],
    bio:'幫三個草創團隊從概念做到上線，最快六週。想找長期合作的技術合夥人角色，不只是接案。',
-   works:['🛠️','📱','⚡'], via:'高志明', openTo:'合作', status:'seeking', cats:['開發']},
+   works:['🛠️','📱','⚡'], via:'高志明', openTo:'合作', status:'seeking', cats:['開發'], refs:12},
   {id:4, emoji:'🎵', name:'Mia Chen', role:'音樂製作人 · 台北',
    tags:['廣告配樂','獨立音樂','聲音品牌'],
    bio:'做廣告配樂也做獨立創作，正在找想一起做聲音品牌的視覺創作者或導演合作。',
-   works:['🎧','🎹','🎬'], via:'吳宗翰', openTo:'合作', status:'seeking', cats:['音樂']},
+   works:['🎧','🎹','🎬'], via:'吳宗翰', openTo:'合作', status:'seeking', cats:['音樂'], refs:3},
   {id:5, emoji:'🎭', name:'Sam Huang', role:'街頭藝人／表演者 · 高雄',
    tags:['雜技','街頭表演','活動演出'],
    bio:'從西門町到駁二都表演過，也接企業尾牙和市集活動。有品牌想跨界合作的可以聊。',
-   works:['🤹','🎪','✨'], via:'黃宇軒', openTo:'接案', status:'open', cats:['表演']},
+   works:['🤹','🎪','✨'], via:'黃宇軒', openTo:'接案', status:'open', cats:['表演'], refs:5},
   {id:6, emoji:'✍️', name:'Nina Fang', role:'品牌文案 · 台中',
    tags:['社群文案','品牌故事','新創'],
    bio:'專門幫那種「東西很好但不知道怎麼說」的品牌找到自己的語氣。做過食品、服裝、軟體新創。',
-   works:['📝','💬','🏷️'], via:'林雅婷', openTo:'接案', status:'open', cats:['文案','品牌']},
+   works:['📝','💬','🏷️'], via:'林雅婷', openTo:'接案', status:'open', cats:['文案','品牌'], refs:9},
+  {id:7, emoji:'🔬', name:'Lily Chen', role:'UX 研究員 · 台北',
+   tags:['使用者研究','可用性測試','新創'],
+   bio:'幫新創團隊做使用者訪談跟可用性測試，擅長把模糊的「使用者好像不喜歡」變成具體可以動的洞察。',
+   works:['📋','🎯','📊'], via:'陳怡君', openTo:'接案', status:'open', cats:['設計'], refs:2},
 ];
 
 const STATUS_MAP = {
@@ -600,6 +740,8 @@ let activeChip = '全部';
 let currentPerson = null;
 let sheetList = [];
 let sheetIndex = 0;
+let myBio = '還沒有自介，點擊編輯讓大家認識你。';
+let myStatus = 'open';
 
 // ── Cards ──
 function renderCards(people){
@@ -609,26 +751,25 @@ function renderCards(people){
     return;
   }
   grid.innerHTML = people.map((p,i)=>{
-    const color = primaryColor(p);
-    const dark = darken(color,0.6);
+    const [c1,c2] = accentPair(p.id);
     const st = STATUS_MAP[p.status];
     const heart = liked.has(p.id)
       ? `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.5-9.5-9C1 8 2.5 4.5 6 4c2.2-.3 4 1 6 3.2C14 5 15.8 3.7 18 4c3.5.5 5 4 3.5 8-2 4.5-9.5 9-9.5 9z"/></svg>`
       : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7.5-4.5-9.5-9C1 8 2.5 4.5 6 4c2.2-.3 4 1 6 3.2C14 5 15.8 3.7 18 4c3.5.5 5 4 3.5 8-2 4.5-9.5 9-9.5 9z"/></svg>`;
     return `
     <div class="pcard" style="animation-delay:${i*0.04}s" onclick="openSheet(${p.id})">
-      <div class="pcard-cover" style="background:linear-gradient(135deg, ${color} 0%, ${dark} 100%)">
+      <div class="pcard-cover" style="background:linear-gradient(135deg, ${c1} 0%, ${c2} 100%)">
         <div class="pcard-dots"></div>
         <div class="status-badge ${st.cls}"><span class="status-dot ${st.cls}"></span>${st.label}</div>
         <div class="btn-like${liked.has(p.id)?' liked':''}" onclick="toggleLike(event,${p.id})">${heart}</div>
-        <div class="pcard-avatar" style="border-color:${color};background:${rgba(color,0.25)};box-shadow:0 4px 14px ${rgba(color,0.4)}">${p.emoji}</div>
+        <div class="pcard-avatar" style="border-color:${c1};background:${rgba(c1,0.16)};box-shadow:0 4px 14px ${rgba(c1,0.3)}">${p.emoji}</div>
       </div>
       <div class="pcard-body">
-        <div class="pcard-name">${p.name}</div>
+        <div class="pcard-name-row"><div class="pcard-name">${p.name}</div><div class="ref-mini">${STAR_SVG}${p.refs}</div></div>
         <div class="pcard-role">${p.role}</div>
         <div class="pcard-ref-chip"><span class="ref-tag-mono">REF</span><span class="name">${p.via}</span></div>
         <div class="pcard-tags">
-          ${p.tags.map((t,ti)=>`<span class="ptag${ti===0?' hot':''}" ${ti===0?`style="color:${color};background:${rgba(color,0.15)}"`:''}>${t}</span>`).join('')}
+          ${p.tags.map((t,ti)=>`<span class="ptag${ti===0?' hot':''}" ${ti===0?`style="color:${c1};background:${rgba(c1,0.12)}"`:''}>${t}</span>`).join('')}
         </div>
       </div>
     </div>`;
@@ -636,22 +777,18 @@ function renderCards(people){
 }
 
 function getFiltered(){
-  let list = PEOPLE;
+  let list = PEOPLE.slice();
   const q = document.getElementById('search-inp').value.trim().toLowerCase();
   if(activeChip!=='全部') list = list.filter(p=>p.cats.includes(activeChip));
   if(q) list = list.filter(p=>(p.name+p.role+p.tags.join('')+p.bio).toLowerCase().includes(q));
+  list.sort((a,b)=>b.refs-a.refs); // 被推薦越多，排名越前面
   return list;
 }
 
 function setChip(el,cat){
   document.querySelectorAll('.chip').forEach(c=>{c.classList.remove('active');c.style.background='';c.style.borderColor='';c.style.color='';});
   el.classList.add('active');
-  if(cat==='全部'){
-    el.style.background='rgba(255,107,107,0.12)';el.style.borderColor='var(--brand)';el.style.color='var(--brand)';
-  } else {
-    const c = catColor(cat);
-    el.style.background=rgba(c,0.14);el.style.borderColor=c;el.style.color=c;
-  }
+  el.style.background=rgba(BRAND,0.1);el.style.borderColor='var(--brand)';el.style.color='var(--brand)';
   activeChip = cat;
   renderCards(getFiltered());
 }
@@ -672,32 +809,51 @@ function renderSheet(){
   const p = sheetList[sheetIndex];
   if(!p) return;
   currentPerson = p;
-  const color = primaryColor(p);
-  const dark = darken(color,0.6);
-  document.getElementById('s-cover').innerHTML = `<div style="position:absolute;inset:0;background:linear-gradient(135deg,${color} 0%,${dark} 100%)"></div><div class="pcard-dots" style="opacity:.35"></div><div style="position:relative;z-index:1;">${p.emoji}</div>`;
+  const [color, color2] = accentPair(p.id);
+  document.getElementById('s-cover').innerHTML = `<div style="position:absolute;inset:0;background:linear-gradient(135deg,${color} 0%,${color2} 100%)"></div><div class="pcard-dots" style="opacity:.35"></div><div style="position:relative;z-index:1;">${p.emoji}</div>`;
   document.getElementById('s-name').textContent = p.name;
   document.getElementById('s-role').textContent = p.role;
   const st = STATUS_MAP[p.status];
-  document.getElementById('s-status').innerHTML = `<div class="status-badge ${st.cls}" style="position:static;display:inline-flex;"><span class="status-dot ${st.cls}"></span>${st.label}</div>`;
-  document.getElementById('s-tags').innerHTML = p.tags.map((t,i)=>`<span class="sheet-tag" ${i===0?`style="color:${color};background:${rgba(color,0.15)}"`:''}>${t}</span>`).join('');
+  document.getElementById('s-status').innerHTML = `<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;"><div class="status-badge ${st.cls}" style="position:static;display:inline-flex;"><span class="status-dot ${st.cls}"></span>${st.label}</div><span style="display:inline-flex;align-items:center;gap:3px;font-family:var(--f-mono);font-size:11px;font-weight:700;color:var(--brand);">${STAR_SVG} 被推薦 ${p.refs} 次</span></div>`;
+  document.getElementById('s-tags').innerHTML = p.tags.map((t,i)=>`<span class="sheet-tag" ${i===0?`style="color:${color};background:${rgba(color,0.12)}"`:''}>${t}</span>`).join('');
   document.getElementById('s-bio').textContent = p.bio;
   document.getElementById('s-works').innerHTML = p.works.map(w=>`<div class="work-thumb">${w}</div>`).join('');
 
-  const path = bfsPath(NETWORK, '你', p.via) || ['你', p.via];
-  const hops = path.length - 2; // intermediate connectors beyond the direct via-friend
-  const nodeCols = path.map((name,idx)=>{
-    if(idx===0) return `<div class="chain-col"><div class="chain-node you">你</div><div class="chain-node-label">你</div></div>`;
-    return `<div class="chain-col"><div class="chain-node" style="border-color:var(--muted)">${name[0]}</div><div class="chain-node-label">${name}</div></div>`;
-  });
-  nodeCols.push(`<div class="chain-col"><div class="chain-node" style="border-color:${color};background:${rgba(color,0.18)}">${p.emoji}</div><div class="chain-node-label">${p.name}</div></div>`);
-  const hopTag = hops<=0 ? '直接朋友引薦' : `透過 ${hops} 位朋友的朋友連結（系統幫你找的最短路徑）`;
-  document.getElementById('s-chain').innerHTML = `
-    <div class="chain-path">${nodeCols.join('<div class="chain-line"></div>')}</div>
-    <div class="chain-hop-tag">${hopTag}</div>
-    <div class="chain-note">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      對方確認後才會公開聯絡方式，你不需要直接認識整條鏈上的每一個人
-    </div>`;
+  const path = bfsPath(NETWORK, '你', p.via); // null = no mutual connection found
+  const sChain = document.getElementById('s-chain');
+  if(path){
+    const hops = path.length - 2; // intermediate connectors beyond the direct via-friend
+    const nodeCols = path.map((name,idx)=>{
+      if(idx===0) return `<div class="chain-col"><div class="chain-node you">你</div><div class="chain-node-label">你</div></div>`;
+      return `<div class="chain-col"><div class="chain-node" style="border-color:var(--muted)">${name[0]}</div><div class="chain-node-label">${name}</div></div>`;
+    });
+    nodeCols.push(`<div class="chain-col"><div class="chain-node" style="border-color:${color};background:${rgba(color,0.14)}">${p.emoji}</div><div class="chain-node-label">${p.name}</div></div>`);
+    const hopTag = hops<=0 ? '直接朋友引薦' : `透過 ${hops} 位朋友的朋友連結（系統幫你找的最短路徑）`;
+    const summary = hops<=0
+      ? `你們有共同朋友 <b>${path[1]}</b>，請她幫忙引薦會更容易被接受`
+      : `你們有共同朋友的朋友 <b>${path[1]}</b>，一樣可以請她幫忙搭橋`;
+    sChain.className = 'chain-box';
+    sChain.innerHTML = `
+      <div class="chain-summary">
+        <div class="chain-summary-text">💡 ${summary}</div>
+        <button class="chain-expand-btn" onclick="this.parentElement.nextElementSibling.classList.toggle('show')">查看路徑</button>
+      </div>
+      <div class="chain-detail">
+        <div class="chain-path">${nodeCols.join('<div class="chain-line"></div>')}</div>
+        <div class="chain-hop-tag">${hopTag}</div>
+        <div class="chain-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          對方確認後才會公開聯絡方式，你不需要直接認識整條鏈上的每一個人
+        </div>
+      </div>`;
+  } else {
+    sChain.className = 'chain-box cold';
+    sChain.innerHTML = `
+      <div class="chain-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        目前沒有共同朋友，這會是一個直接的認識請求——一樣可以發送，只是少了信任背書
+      </div>`;
+  }
 
   const maxDots = 8;
   const prog = document.getElementById('s-progress');
@@ -734,8 +890,8 @@ function sendRequest(){
   requests.push(currentPerson);
   renderRequests();
   closeSheet();
-  showToast(`已向 ${currentPerson.name} 發送引薦請求`);
-  document.getElementById('nav-connect-dot').classList.add('show');
+  showToast(`已向 ${currentPerson.name} 發送認識請求`);
+  updateNavDot();
 }
 
 function saveCard(){ showToast('已收藏'); }
@@ -801,6 +957,11 @@ function toggleLike(e,id){
 }
 
 // ── Requests ──
+function updateNavDot(){
+  const total = requests.length + incomingRequests.length;
+  document.getElementById('nav-connect-dot').classList.toggle('show', total > 0);
+}
+
 function renderRequests(){
   const list = document.getElementById('req-list');
   const empty = document.getElementById('connect-empty');
@@ -840,13 +1001,90 @@ function acceptReq(i){
   showToast(`🎉 成功與 ${p.name} 建立連結！你的人脈圖更新了`);
   requests.splice(i,1);
   renderRequests();
-  if(!requests.length) document.getElementById('nav-connect-dot').classList.remove('show');
+  updateNavDot();
 }
 
 function declineReq(i){
   requests.splice(i,1);
   renderRequests();
-  if(!requests.length) document.getElementById('nav-connect-dot').classList.remove('show');
+  updateNavDot();
+}
+
+// ── Incoming requests: people who want to connect with YOU. Split into a
+// warm lane (mutual friend exists — shown directly, like a trusted inbox)
+// and a cold lane (no mutual friend — collapsed by default, like the
+// "message requests" folder pattern on most chat/social apps), with report
+// available on the cold lane since that's where spam/直銷 would land. ──
+const INCOMING_SEED = [
+  {id:101, emoji:'🧑‍💻', name:'陳子豪', role:'前端工程師 · 台北', note:'看到你的引薦鏈做得很有趣，想請教一些設計上的想法，方便認識一下嗎？', warm:true, viaName:'林雅婷'},
+  {id:102, emoji:'📈', name:'王經理', role:'業務顧問', note:'您好，我們有最新的理財方案，想跟您介紹一下機會，方便聊聊嗎？😊', warm:false},
+  {id:103, emoji:'🎬', name:'Tom Hsu', role:'獨立導演 · 台南', note:'我們在找品牌視覺合作的夥伴，看到你的作品集很喜歡，想直接認識', warm:false},
+];
+let incomingRequests = INCOMING_SEED.map(r=>({...r}));
+
+function incomingCardHtml(r){
+  return `
+  <div class="incoming-card" id="inc-${r.id}">
+    <div class="incoming-top">
+      <div class="incoming-ava" style="${r.warm?`border-color:var(--brand);background:${rgba(BRAND,0.12)}`:''}">${r.emoji}</div>
+      <div class="incoming-info">
+        <div class="incoming-name">${r.name}</div>
+        <div class="incoming-role">${r.role}</div>
+        ${r.warm ? `<div class="incoming-warm-tag">💡 你們有共同朋友 ${r.viaName}</div>` : ''}
+      </div>
+    </div>
+    <div class="incoming-note">${r.note}</div>
+    <div class="incoming-actions">
+      <button class="btn-accept" onclick="acceptIncoming(${r.id})">確認</button>
+      <button class="btn-decline" onclick="declineIncoming(${r.id})">略過</button>
+      ${r.warm ? '' : `<button class="btn-report" onclick="reportIncoming(${r.id})">🚩 檢舉</button>`}
+    </div>
+  </div>`;
+}
+
+function renderIncoming(){
+  const warm = incomingRequests.filter(r=>r.warm);
+  const cold = incomingRequests.filter(r=>!r.warm);
+  document.getElementById('incoming-warm-list').innerHTML = warm.length
+    ? warm.map(incomingCardHtml).join('')
+    : `<div class="profile-empty" style="padding:14px 0;">目前沒有透過朋友引薦的新請求</div>`;
+  const toggleBtn = document.getElementById('incoming-cold-toggle');
+  if(cold.length){
+    toggleBtn.style.display = 'flex';
+    toggleBtn.textContent = `顯示 ${cold.length} 則不熟悉的請求`;
+  } else {
+    toggleBtn.style.display = 'none';
+  }
+  document.getElementById('incoming-cold-list').innerHTML = cold.map(incomingCardHtml).join('');
+  updateNavDot();
+}
+
+function toggleColdRequests(){
+  document.getElementById('incoming-cold-list').classList.toggle('show');
+}
+
+function acceptIncoming(id){
+  const r = incomingRequests.find(x=>x.id===id);
+  if(!r) return;
+  addEdge(NETWORK, '你', r.name);
+  if(!myDirectFriends.includes(r.name)) myDirectFriends.push(r.name);
+  renderMyNetwork();
+  incomingRequests = incomingRequests.filter(x=>x.id!==id);
+  renderIncoming();
+  showToast(`🎉 你和 ${r.name} 建立連結了`);
+}
+
+function declineIncoming(id){
+  incomingRequests = incomingRequests.filter(x=>x.id!==id);
+  renderIncoming();
+  showToast('已略過');
+}
+
+function reportIncoming(id){
+  const r = incomingRequests.find(x=>x.id===id);
+  incomingRequests = incomingRequests.filter(x=>x.id!==id);
+  renderIncoming();
+  showToast(r ? `已檢舉 ${r.name}，我們會降低對方的曝光並審核` : '已檢舉，謝謝回報');
 }
 
 // ── Nav ──
@@ -855,7 +1093,39 @@ function switchTab(tab){
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('screen-'+tab).classList.add('active');
   document.getElementById('nav-'+tab).classList.add('active');
-  if(tab==='connect') renderRequests();
+  if(tab==='connect'){ renderRequests(); renderIncoming(); }
+}
+
+// ── Profile: status picker + editable bio (merged from uploaded variant) ──
+function renderStatusPicker(){
+  const colorMap = {open:'#16A34A', full:'#DC2626', seeking:'#D97706'};
+  document.getElementById('status-picker').innerHTML = Object.keys(STATUS_MAP).map(key=>{
+    const s = STATUS_MAP[key];
+    const active = key===myStatus;
+    const c = colorMap[key];
+    return `<button class="status-pick-btn${active?' active':''}" style="${active?`background:${rgba(c,0.14)};border-color:${c};color:${c}`:''}" onclick="setMyStatus('${key}')"><span class="status-dot ${s.cls}" style="margin:0;"></span>${s.label}</button>`;
+  }).join('');
+}
+function setMyStatus(key){ myStatus = key; renderStatusPicker(); showToast('狀態已更新'); }
+
+function openEditBio(){
+  document.getElementById('edit-bio-textarea').value = myBio;
+  document.getElementById('edit-bio-overlay').classList.add('show');
+}
+function closeEditBio(e){
+  if(!e || e.target===document.getElementById('edit-bio-overlay')){
+    document.getElementById('edit-bio-overlay').classList.remove('show');
+  }
+}
+function saveBio(){
+  myBio = document.getElementById('edit-bio-textarea').value.trim() || '還沒有自介，點擊編輯讓大家認識你。';
+  document.getElementById('my-bio-text').textContent = myBio;
+  document.getElementById('edit-bio-overlay').classList.remove('show');
+  showToast('自介已更新');
+}
+
+function dismissWelcome(){
+  document.getElementById('welcome-overlay').classList.add('hide');
 }
 
 // ── Public referral board (D) — a low-pressure fallback: no one has to
@@ -868,10 +1138,9 @@ let boardSelectedCat = '設計';
 let boardIdSeq = 100;
 
 function renderBoardChips(){
-  document.getElementById('board-cat-chips').innerHTML = Object.keys(CATS).map(cat=>{
+  document.getElementById('board-cat-chips').innerHTML = CATEGORIES.map(cat=>{
     const active = cat===boardSelectedCat;
-    const c = catColor(cat);
-    return `<button class="board-cat-chip${active?' active':''}" style="${active?`background:${rgba(c,0.16)};border-color:${c};color:${c}`:''}" onclick="selectBoardCat('${cat}')">${cat}</button>`;
+    return `<button class="board-cat-chip${active?' active':''}" style="${active?`background:${rgba(BRAND,0.12)};border-color:var(--brand);color:var(--brand)`:''}" onclick="selectBoardCat('${cat}')">${cat}</button>`;
   }).join('');
 }
 function selectBoardCat(cat){ boardSelectedCat = cat; renderBoardChips(); }
@@ -906,7 +1175,6 @@ function respondBoard(id){
 
 function renderBoard(){
   document.getElementById('board-list').innerHTML = boardPosts.map(post=>{
-    const c = catColor(post.cat);
     let actionHtml;
     if(post.mine){
       actionHtml = post.status==='pending'
@@ -920,7 +1188,7 @@ function renderBoard(){
     return `
     <div class="board-post">
       <div class="board-post-top">
-        <span class="board-post-cat" style="background:${rgba(c,0.15)};color:${c}">${post.cat}</span>
+        <span class="board-post-cat">${post.cat}</span>
         <span class="board-post-name">${post.mine?'你':post.name}</span>
       </div>
       <div class="board-post-note">${post.note}</div>
@@ -938,9 +1206,11 @@ function showToast(msg){
 }
 
 // Init
-renderCards(PEOPLE);
+renderCards(getFiltered());
 renderRequests();
+renderIncoming();
 renderMyNetwork();
+renderStatusPicker();
 renderBoardChips();
 renderBoard();
 
