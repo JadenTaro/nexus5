@@ -81,9 +81,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 }
 .nav-btn{
   display:flex;flex-direction:column;align-items:center;gap:4px;
-  color:var(--muted);font-size:10px;font-weight:500;
+  color:var(--muted);font-size:9.5px;font-weight:500;
   background:none;border:none;cursor:pointer;font-family:var(--f-body);
-  transition:color .15s;padding:8px 18px;position:relative;
+  transition:color .15s;padding:8px 8px;position:relative;flex:1;
 }
 .nav-btn .nav-icon{width:20px;height:20px;}
 .nav-btn.active{color:var(--brand);}
@@ -101,9 +101,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
   background:linear-gradient(to bottom,var(--bg) 65%,transparent);
   z-index:100;
 }
-.topbar-logo{display:flex;align-items:center;gap:7px;font-family:var(--f-display);font-size:17px;font-weight:700;letter-spacing:-.3px;color:var(--text);flex-shrink:0;}
-.topbar-logo svg{flex-shrink:0;}
-.topbar-logo b{font-weight:700;background:linear-gradient(120deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.topbar-logo{display:flex;align-items:center;gap:0;font-family:var(--f-display);font-size:18px;font-weight:700;letter-spacing:-.3px;flex-shrink:0;}
+.topbar-logo .lm-text{background:linear-gradient(120deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.topbar-logo .lm-x{flex-shrink:0;margin:0 -1px;position:relative;top:0.5px;}
 .topbar-search{
   flex:1;margin:0 12px;background:var(--surface2);border:1px solid var(--border);
   border-radius:11px;display:flex;align-items:center;gap:8px;padding:0 12px;height:36px;cursor:text;
@@ -152,53 +152,49 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 
 .pcard{
   background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);
-  overflow:hidden;cursor:pointer;transition:transform .15s, border-color .15s, box-shadow .15s;
-  display:flex;flex-direction:column;animation:rise .25s ease both;
+  cursor:pointer;transition:transform .15s, box-shadow .15s;
+  padding:14px 13px 13px;position:relative;
+  animation:rise .25s ease both;
   box-shadow:0 1px 2px rgba(17,21,28,0.04), 0 1px 8px rgba(17,21,28,0.04);
 }
 .pcard:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(17,21,28,0.08);}
 @keyframes rise{from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)}}
 
-.pcard-cover{position:relative;width:100%;aspect-ratio:16/10;overflow:visible;}
-.pcard-dots{position:absolute;inset:0;background-image:radial-gradient(circle, rgba(255,255,255,0.22) 1px, transparent 1.6px);background-size:14px 14px;opacity:.45;}
-
-.status-badge{
-  position:absolute;top:9px;left:9px;z-index:2;
-  display:inline-flex;align-items:center;gap:5px;
-  background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);
-  font-family:var(--f-mono);font-size:9px;font-weight:600;
-  padding:4px 8px;border-radius:20px;letter-spacing:.2px;color:#fff;white-space:nowrap;
+.pcard-top{display:flex;align-items:flex-start;gap:9px;margin-bottom:10px;}
+.pcard-avatar{
+  width:42px;height:42px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+  background:#fff;
 }
-.status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;animation:breathe 1.6s ease-in-out infinite;}
-@keyframes breathe{0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.4;transform:scale(.75);}}
-.status-dot.open{background:var(--green-glow);box-shadow:0 0 6px var(--green-glow);}
-.status-dot.full{background:var(--red-glow);box-shadow:0 0 6px var(--red-glow);}
-.status-dot.seeking{background:var(--amber-glow);box-shadow:0 0 6px var(--amber-glow);}
-.status-badge.open{color:var(--green-glow);}
-.status-badge.full{color:var(--red-glow);}
-.status-badge.seeking{color:var(--amber-glow);}
+.pcard-info{flex:1;min-width:0;padding-right:18px;}
+.pcard-name-row{display:flex;align-items:center;justify-content:space-between;gap:6px;}
+.pcard-name{font-family:var(--f-display);font-size:13.5px;font-weight:700;}
+.pcard-role{font-size:10.5px;color:var(--sub);margin-top:2px;line-height:1.3;}
 
 .btn-like{
-  position:absolute;top:8px;right:8px;z-index:2;
-  width:27px;height:27px;border-radius:50%;
-  background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);
-  display:flex;align-items:center;justify-content:center;cursor:pointer;
-  color:#fff;transition:transform .12s;
+  position:absolute;top:13px;right:12px;
+  width:20px;height:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;
+  color:var(--border);transition:transform .12s, color .12s;
 }
-.btn-like svg{width:13px;height:13px;}
+.btn-like svg{width:15px;height:15px;}
 .btn-like.liked{color:var(--brand);}
 .btn-like:active{transform:scale(0.85);}
 
-.pcard-avatar{
-  position:absolute;left:13px;bottom:-20px;z-index:3;
-  width:46px;height:46px;border-radius:50%;border:2.5px solid;
-  display:flex;align-items:center;justify-content:center;font-size:21px;
+.status-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--f-mono);font-size:8.5px;font-weight:700;
+  padding:3px 8px;border-radius:20px;letter-spacing:.2px;white-space:nowrap;
+  margin-bottom:9px;
 }
+.status-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;animation:breathe 1.6s ease-in-out infinite;}
+@keyframes breathe{0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.4;transform:scale(.75);}}
+.status-dot.open{background:var(--green);}
+.status-dot.full{background:var(--red);}
+.status-dot.cofounder{background:var(--brand2);}
+.status-badge.open{background:rgba(22,163,74,0.1);color:var(--green);}
+.status-badge.full{background:rgba(220,38,38,0.1);color:var(--red);}
+.status-badge.cofounder{background:rgba(124,92,255,0.12);color:var(--brand2);}
 
-.pcard-body{padding:28px 12px 13px;}
-.pcard-name-row{display:flex;align-items:center;justify-content:space-between;gap:6px;}
-.pcard-name{font-family:var(--f-display);font-size:14px;font-weight:700;margin-bottom:2px;}
-.pcard-role{font-size:11px;color:var(--sub);margin-bottom:7px;line-height:1.3;}
 .pcard-ref-chip{
   display:inline-flex;align-items:center;gap:5px;
   font-size:10.5px;color:var(--sub);background:var(--surface2);border:1px solid var(--border);
@@ -211,15 +207,23 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .ptag.hot{font-weight:700;}
 
 /* ── Detail sheet ── */
+.pcard-dots{position:absolute;inset:0;background-image:radial-gradient(circle, rgba(255,255,255,0.22) 1px, transparent 1.6px);background-size:14px 14px;opacity:.45;}
+.cofounder-ribbon{position:absolute;top:0;left:0;right:0;z-index:3;height:19px;background:var(--brand2);color:#fff;font-size:9.5px;font-weight:700;letter-spacing:.2px;display:flex;align-items:center;justify-content:center;}
 .sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;display:none;align-items:flex-end;backdrop-filter:blur(2px);}
 .sheet-overlay.show{display:flex;}
 .sheet{background:var(--surface);border-radius:20px 20px 0 0;width:100%;max-height:85vh;overflow-y:auto;padding:0 0 40px;animation:slideUp .25s cubic-bezier(.25,.46,.45,.94);box-shadow:0 -8px 30px rgba(17,21,28,0.12);}
 @keyframes slideUp{from{transform:translateY(100%)} to{transform:translateY(0)}}
 .sheet-handle{width:36px;height:4px;border-radius:2px;background:var(--border);margin:12px auto 0;}
-.sheet-cover{position:relative;width:100%;height:180px;display:flex;align-items:center;justify-content:center;font-size:64px;margin-top:12px;overflow:hidden;}
+.sheet-cover{position:relative;width:100%;height:130px;display:flex;align-items:center;justify-content:center;font-size:56px;margin-top:12px;overflow:hidden;}
 .sheet-main{padding:0 20px;}
 .sheet-name{font-family:var(--f-display);font-size:21px;font-weight:700;margin-bottom:3px;margin-top:4px;}
 .sheet-role{font-size:13px;color:var(--sub);margin-bottom:14px;}
+.review-summary.empty{color:var(--sub);font-size:11.5px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;}
+.testimonial-list{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:11px 13px;}
+.testimonial-count{font-family:var(--f-mono);font-size:10.5px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:.2px;}
+.testimonial-item{font-size:12.5px;color:var(--text);line-height:1.6;margin-bottom:8px;}
+.testimonial-item:last-child{margin-bottom:0;}
+.testimonial-author{display:block;font-size:10.5px;color:var(--muted);margin-top:2px;}
 .sheet-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
 .sheet-tag{font-size:12px;background:var(--tag-bg);color:var(--sub);border-radius:8px;padding:4px 10px;}
 .sheet-bio{font-size:13px;color:var(--sub);line-height:1.7;margin-bottom:18px;}
@@ -286,6 +290,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 }
 .btn-ask-intro svg{width:14px;height:14px;}
 .btn-ask-intro:hover{border-color:var(--brand);color:var(--brand);}
+.btn-recommend{
+  width:100%;margin-top:8px;border-radius:12px;padding:11px;font-size:12.5px;font-family:var(--f-body);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid;
+  background:rgba(124,92,255,0.08);border-color:var(--brand2);color:var(--brand2);font-weight:700;
+}
+.btn-recommend:hover{background:rgba(124,92,255,0.14);}
+.btn-recommend.done{background:rgba(22,163,74,0.08);border-color:var(--green);color:var(--green);cursor:default;}
+.btn-recommend.disabled{background:var(--surface2);border-color:var(--border);color:var(--muted);cursor:default;}
 
 /* ── Intro Modal ── */
 .intro-modal-overlay{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,0.65);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:20px;}
@@ -301,6 +313,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 
 /* ── Connect screen ── */
 #screen-connect{padding:20px 16px;}
+#screen-board{padding:20px 16px;}
 .connect-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:55vh;gap:12px;color:var(--muted);text-align:center;}
 .connect-empty svg{width:42px;height:42px;opacity:.3;}
 .connect-empty p{font-size:13px;line-height:1.6;}
@@ -333,6 +346,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 
 /* ── Public referral board (D) ── */
 .board-section{margin-top:24px;}
+.board-tabs{display:flex;gap:6px;margin-bottom:12px;background:var(--surface2);border-radius:11px;padding:3px;}
+.board-tab{flex:1;background:none;border:none;color:var(--sub);font-size:12.5px;font-weight:600;padding:8px 0;border-radius:9px;cursor:pointer;font-family:var(--f-body);transition:all .15s;}
+.board-tab.active{background:var(--surface);color:var(--brand);box-shadow:0 1px 3px rgba(17,21,28,0.08);}
 .board-toggle{
   width:100%;background:var(--surface2);border:1.5px dashed var(--border);color:var(--sub);
   border-radius:12px;padding:12px;font-size:13px;font-family:var(--f-body);cursor:pointer;
@@ -367,6 +383,18 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .net-ava{width:21px;height:21px;border-radius:50%;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--f-display);font-weight:700;color:var(--text);flex-shrink:0;}
 .net-note{font-size:10.5px;color:var(--muted);line-height:1.5;margin-bottom:4px;}
 
+/* ── Invite / growth loop ── */
+.invite-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 16px;margin-bottom:18px;box-shadow:0 1px 2px rgba(17,21,28,0.04), 0 1px 8px rgba(17,21,28,0.04);}
+.invite-desc{font-size:12.5px;color:var(--sub);line-height:1.5;margin-bottom:10px;}
+.invite-desc b{color:var(--brand);}
+.invite-link-row{display:flex;gap:8px;margin-bottom:10px;}
+.invite-link-input{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:9px 11px;font-size:12px;font-family:var(--f-mono);color:var(--sub);min-width:0;}
+.invite-copy-btn{flex-shrink:0;background:linear-gradient(120deg,var(--brand),var(--brand2));color:var(--on-brand);border:none;border-radius:9px;padding:9px 16px;font-size:12.5px;font-weight:700;font-family:var(--f-body);cursor:pointer;}
+.invite-stats{font-size:11.5px;color:var(--muted);margin-bottom:8px;}
+.invite-stats b{color:var(--text);}
+.invite-simulate-btn{width:100%;background:none;border:1px dashed var(--border);color:var(--muted);border-radius:8px;padding:8px;font-size:11px;font-family:var(--f-body);cursor:pointer;}
+.invite-simulate-btn:hover{border-color:var(--brand);color:var(--brand);}
+
 /* ── Profile screen ── */
 #screen-profile{padding:20px 16px;}
 .profile-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px;}
@@ -381,6 +409,37 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .profile-bio{font-size:13px;color:var(--sub);line-height:1.7;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;}
 .profile-bio-edit-btn{background:none;border:1px solid var(--border);color:var(--sub);border-radius:8px;padding:6px 13px;font-size:11.5px;font-family:var(--f-body);cursor:pointer;transition:border-color .15s,color .15s;margin-bottom:16px;display:inline-flex;align-items:center;gap:5px;}
 .profile-bio-edit-btn:hover{border-color:var(--brand);color:var(--brand);}
+.btn-edit-profile{display:inline-flex;align-items:center;gap:6px;background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:9px 15px;font-size:12.5px;font-weight:600;font-family:var(--f-body);cursor:pointer;transition:border-color .15s,color .15s;margin-bottom:18px;}
+.btn-edit-profile:hover{border-color:var(--brand);color:var(--brand);}
+.my-skill-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+.my-skill-tags .ptag{font-size:11px;padding:4px 10px;}
+.my-skill-empty{font-size:11.5px;color:var(--muted);margin-bottom:14px;}
+.my-portfolio-row{font-size:11.5px;color:var(--brand);font-family:var(--f-mono);margin:-6px 0 16px;display:flex;align-items:center;gap:5px;}
+.my-portfolio-row a{color:inherit;text-decoration:none;}
+.my-portfolio-row a:hover{text-decoration:underline;}
+
+/* ── Full profile editor ── */
+.ep-label{font-size:11px;font-weight:600;color:var(--muted);margin:14px 0 7px;}
+.ep-label:first-of-type{margin-top:4px;}
+.ep-required{color:var(--brand2);font-weight:500;}
+.ep-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:13px;font-family:var(--f-body);color:var(--text);outline:none;transition:border-color .15s;}
+.ep-input:focus{border-color:var(--brand);}
+.ep-input::placeholder{color:var(--muted);}
+.ep-row{display:flex;gap:10px;}
+.ep-emoji-picker{display:flex;flex-wrap:wrap;gap:7px;}
+.ep-emoji-btn{width:38px;height:38px;border-radius:10px;background:var(--surface2);border:2px solid var(--border);font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .15s;}
+.ep-emoji-btn.active{border-color:var(--brand);background:rgba(27,79,255,0.08);}
+.ep-main-cats{display:flex;flex-wrap:wrap;gap:6px;}
+.ep-main-chip{font-size:12px;padding:6px 13px;border-radius:18px;background:var(--surface2);border:1px solid var(--border);color:var(--sub);cursor:pointer;font-family:var(--f-body);transition:all .12s;}
+.ep-main-chip.active{background:rgba(27,79,255,0.1);border-color:var(--brand);color:var(--brand);font-weight:700;}
+.ep-sub-group{margin-top:9px;padding:10px 11px;background:var(--surface2);border-radius:10px;border:1px solid var(--border);}
+.ep-sub-group-label{font-size:10px;color:var(--muted);font-family:var(--f-mono);margin-bottom:7px;letter-spacing:.3px;}
+.ep-sub-chips{display:flex;flex-wrap:wrap;gap:6px;}
+.ep-sub-chip{font-size:11.5px;padding:5px 11px;border-radius:14px;background:var(--surface);border:1px solid var(--border);color:var(--sub);cursor:pointer;font-family:var(--f-body);transition:all .12s;}
+.ep-sub-chip.active{background:rgba(124,92,255,0.12);border-color:var(--brand2);color:var(--brand2);font-weight:700;}
+.ep-selected-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;min-height:0;}
+.ep-selected-tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;background:rgba(27,79,255,0.08);color:var(--brand);border-radius:14px;padding:4px 6px 4px 10px;font-weight:600;}
+.ep-selected-tag svg{cursor:pointer;width:11px;height:11px;}
 .profile-empty{color:var(--muted);font-size:13px;padding:20px 0;text-align:center;line-height:1.6;}
 
 /* ── Profile: referral score + status (merged from uploaded variant) ── */
@@ -431,13 +490,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
     <div class="load-ring"></div>
     <svg class="load-mark" viewBox="0 0 24 24" width="20" height="20" fill="none"><defs><linearGradient id="logoGradLoad" x1="3" y1="3" x2="21" y2="21"><stop offset="0" stop-color="#1B4FFF"/><stop offset="1" stop-color="#7C5CFF"/></linearGradient></defs><path d="M12 5L5 18M12 5L19 18M5 18L19 18" stroke="url(#logoGradLoad)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="5" r="2.6" fill="url(#logoGradLoad)"/><circle cx="5" cy="18" r="2.6" fill="url(#logoGradLoad)"/><circle cx="19" cy="18" r="2.6" fill="url(#logoGradLoad)"/></svg>
   </div>
-  <div class="load-text">NEXUS5 · <b>Connecting People</b></div>
+  <div class="load-text">NEXU5 · <b>Connecting People</b></div>
 </div>
 
 <header class="topbar">
   <div class="topbar-logo">
-    <svg viewBox="0 0 24 24" width="21" height="21" fill="none"><defs><linearGradient id="logoGradTop" x1="3" y1="3" x2="21" y2="21"><stop offset="0" stop-color="#1B4FFF"/><stop offset="1" stop-color="#7C5CFF"/></linearGradient></defs><path d="M12 5L5 18M12 5L19 18M5 18L19 18" stroke="url(#logoGradTop)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="5" r="2.6" fill="url(#logoGradTop)"/><circle cx="5" cy="18" r="2.6" fill="url(#logoGradTop)"/><circle cx="19" cy="18" r="2.6" fill="url(#logoGradTop)"/></svg>
-    nexus<b>5</b>
+    <span class="lm-text">NEXU</span>
+    <svg class="lm-x" viewBox="0 0 24 24" width="15" height="15" fill="none"><defs><linearGradient id="logoGradX" x1="3" y1="3" x2="21" y2="21"><stop offset="0" stop-color="#1B4FFF"/><stop offset="1" stop-color="#7C5CFF"/></linearGradient></defs><path d="M12 5L5 18M12 5L19 18M5 18L19 18" stroke="url(#logoGradX)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="5" r="2.5" fill="url(#logoGradX)"/><circle cx="5" cy="18" r="2.5" fill="url(#logoGradX)"/><circle cx="19" cy="18" r="2.5" fill="url(#logoGradX)"/></svg>
+    <span class="lm-text">5</span>
   </div>
   <div class="topbar-search">
     <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-3.8-3.8"/></svg>
@@ -454,6 +514,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 
   <div class="chips" id="chips">
     <button class="chip active" style="background:rgba(27,79,255,0.1);border-color:#1B4FFF;color:#1B4FFF" onclick="setChip(this,'全部')">全部</button>
+    <button class="chip" id="cofounder-chip" style="border-color:var(--brand2);color:var(--brand2);" onclick="toggleCofounderFilter(this)">🤝 找夥伴</button>
     <button class="chip" onclick="setChip(this,'設計')">設計</button>
     <button class="chip" onclick="setChip(this,'開發')">開發</button>
     <button class="chip" onclick="setChip(this,'攝影')">攝影</button>
@@ -479,36 +540,51 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l1.93-1.93a5 5 0 0 0-7.07-7.07L10.5 5.43"/><path d="M14 11a5 5 0 0 0-7.07 0L5 12.93a5 5 0 0 0 7.07 7.07L13.5 18.57"/></svg>
     <p>目前沒有待處理的請求<br>去探索頁認識新朋友吧</p>
   </div>
+</div>
 
-  <div class="board-section">
-    <div class="section-label">公開求引薦看板</div>
-    <button class="board-toggle" onclick="toggleComposer()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-      發起一個求引薦（不用主動私訊朋友）
-    </button>
-    <div class="board-composer" id="board-composer">
-      <div class="board-composer-label">想認識哪個領域的人？</div>
-      <div class="board-cat-chips" id="board-cat-chips"></div>
-      <textarea class="board-input" id="board-note" rows="2" placeholder="想做什麼樣的合作？（選填）"></textarea>
-      <button class="board-submit" onclick="submitBoardPost()">公開發佈，等有緣人看到</button>
+<div class="screen" id="screen-board">
+  <div class="board-section" style="margin-top:0;">
+    <div class="section-label" style="margin-top:0;">公開求引薦看板</div>
+    <div class="board-tabs">
+      <button class="board-tab active" id="board-tab-browse" onclick="setBoardTab('browse')">瀏覽</button>
+      <button class="board-tab" id="board-tab-mine" onclick="setBoardTab('mine')">我發起的</button>
     </div>
-    <div id="board-list"></div>
+    <div id="board-browse-pane">
+      <div id="board-list"></div>
+    </div>
+    <div id="board-mine-pane" style="display:none;">
+      <button class="board-toggle" onclick="toggleComposer()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        發起一個求引薦（不用主動私訊朋友）
+      </button>
+      <div class="board-composer" id="board-composer">
+        <div class="board-composer-label">想認識哪個領域的人？</div>
+        <div class="board-cat-chips" id="board-cat-chips"></div>
+        <textarea class="board-input" id="board-note" rows="2" placeholder="想做什麼樣的合作？（選填）"></textarea>
+        <button class="board-submit" onclick="submitBoardPost()">公開發佈，等有緣人看到</button>
+      </div>
+      <div id="board-mine-list"></div>
+    </div>
   </div>
 </div>
 
 <div class="screen" id="screen-profile">
   <div class="profile-header">
-    <div class="profile-ava">我</div>
+    <div class="profile-ava" id="profile-ava">我</div>
     <div class="profile-info">
-      <div class="profile-name">你的名字</div>
-      <div class="profile-role">你的專業 · 台北</div>
+      <div class="profile-name" id="profile-name">你的名字</div>
+      <div class="profile-role" id="profile-role">你的專業 · 台北</div>
       <div class="profile-stats">
         <div class="stat"><div class="stat-n" id="my-conn-count">0</div><div class="stat-l">人脈</div></div>
-        <div class="stat"><div class="stat-n">5</div><div class="stat-l">推薦名額</div></div>
+        <div class="stat"><div class="stat-n" id="stat-slots">5</div><div class="stat-l">推薦名額</div></div>
         <div class="stat"><div class="stat-n">0</div><div class="stat-l">合作中</div></div>
       </div>
     </div>
   </div>
+  <button class="btn-edit-profile" onclick="openEditProfile()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    編輯個人檔案
+  </button>
   <div class="ref-score-box">
     <div class="ref-score-n" id="my-ref-count">0</div>
     <div class="ref-score-info">
@@ -520,17 +596,30 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
   <div class="section-label">開放狀態</div>
   <div class="status-picker" id="status-picker"></div>
 
-  <div class="profile-bio" id="my-bio-text">還沒有自介，點擊編輯讓大家認識你。</div>
-  <button class="profile-bio-edit-btn" onclick="openEditBio()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-    編輯自介
-  </button>
+  <div class="section-label">職業與技能</div>
+  <div class="my-skill-tags" id="my-skill-tags"></div>
+
+  <div class="profile-bio" id="my-bio-text">還沒有自介，點擊「編輯個人檔案」讓大家認識你。</div>
+  <div class="my-portfolio-row" id="my-portfolio-row"></div>
+
+  <div class="section-label">邀請朋友加入</div>
+  <div class="invite-box">
+    <div class="invite-desc">每邀請一位朋友成功加入 Nexus5，你會多得到 <b>1 個推薦名額</b>。</div>
+    <div class="invite-link-row">
+      <input class="invite-link-input" id="invite-link" readonly value="nexus5.app/invite/u-x7k2">
+      <button class="invite-copy-btn" onclick="copyInviteLink()">複製</button>
+    </div>
+    <div class="invite-stats">已邀請 <b id="invite-count">0</b> 位朋友加入</div>
+    <button class="invite-simulate-btn" onclick="simulateInviteAccepted()">（Demo）模擬朋友使用連結加入</button>
+  </div>
 
   <div class="section-label">我的起點人脈</div>
   <div class="net-note">每多一個連結，引薦路徑就可能變短——這份清單會隨你的連結自動長大。</div>
   <div class="my-network-chips" id="my-network-chips"></div>
-  <div class="section-label">我推薦的人脈（0/5）</div>
-  <div class="profile-empty">還沒有推薦任何人<br>去探索頁找到你認可的強者</div>
+  <div class="section-label" id="recommend-section-label">我推薦的人脈（0/5）</div>
+  <div class="my-network-chips" id="my-recommended-list">
+    <div class="profile-empty" style="padding:6px 0;text-align:left;">還沒有推薦任何人<br>去探索頁找到你認可的強者</div>
+  </div>
 </div>
 
 <nav class="nav">
@@ -542,6 +631,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l1.93-1.93a5 5 0 0 0-7.07-7.07L10.5 5.43"/><path d="M14 11a5 5 0 0 0-7.07 0L5 12.93a5 5 0 0 0 7.07 7.07L13.5 18.57"/></svg>
     引薦
     <div class="nav-dot" id="nav-connect-dot"></div>
+  </button>
+  <button class="nav-btn" id="nav-board" onclick="switchTab('board')">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/></svg>
+    看板
   </button>
   <button class="nav-btn" id="nav-profile" onclick="switchTab('profile')">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
@@ -566,6 +659,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
       <div class="sheet-name" id="s-name"></div>
       <div class="sheet-role" id="s-role"></div>
       <div id="s-status" style="margin-bottom:12px;"></div>
+      <div id="s-review" style="margin-bottom:14px;"></div>
       <div class="sheet-tags" id="s-tags"></div>
       <div class="sheet-bio" id="s-bio"></div>
 
@@ -587,6 +681,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
         生成請朋友引薦的話術
       </button>
+      <button class="btn-recommend" id="s-recommend-btn" onclick="recommendPerson()"></button>
     </div>
   </div>
 </div>
@@ -606,12 +701,40 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
   </div>
 </div>
 
-<div class="edit-bio-overlay" id="edit-bio-overlay" onclick="closeEditBio(event)">
-  <div class="edit-bio-sheet">
+<div class="edit-bio-overlay" id="edit-profile-overlay" onclick="closeEditProfile(event)">
+  <div class="edit-bio-sheet" style="max-height:85vh;overflow-y:auto;">
     <div class="sheet-handle"></div>
-    <div class="edit-bio-title">編輯我的自介</div>
-    <textarea class="edit-bio-textarea" id="edit-bio-textarea" rows="4" placeholder="告訴大家你能做什麼、現在在找什麼樣的合作…"></textarea>
-    <button class="btn-connect-sheet" style="width:100%" onclick="saveBio()">儲存</button>
+    <div class="edit-bio-title">編輯個人檔案</div>
+
+    <div class="ep-label">大頭貼</div>
+    <div class="ep-emoji-picker" id="ep-emoji-picker"></div>
+
+    <div class="ep-label">姓名</div>
+    <input class="ep-input" id="ep-name" type="text" placeholder="你的名字">
+
+    <div class="ep-row">
+      <div style="flex:1;">
+        <div class="ep-label">職業 / 頭銜</div>
+        <input class="ep-input" id="ep-role" type="text" placeholder="例如：全端工程師">
+      </div>
+      <div style="flex:1;">
+        <div class="ep-label">所在地</div>
+        <input class="ep-input" id="ep-location" type="text" placeholder="例如：台北">
+      </div>
+    </div>
+
+    <div class="ep-label">職業與技能 <span class="ep-required">（必選至少 1 項）</span></div>
+    <div class="ep-main-cats" id="ep-main-cats"></div>
+    <div id="ep-sub-cats"></div>
+    <div class="ep-selected-tags" id="ep-selected-tags"></div>
+
+    <div class="ep-label">作品集連結（選填）</div>
+    <input class="ep-input" id="ep-portfolio" type="text" placeholder="例如：behance.net/yourname">
+
+    <div class="ep-label">自介</div>
+    <textarea class="edit-bio-textarea" id="ep-bio" rows="4" placeholder="告訴大家你能做什麼、現在在找什麼樣的合作…"></textarea>
+
+    <button class="btn-connect-sheet" style="width:100%" onclick="saveProfile()">儲存個人檔案</button>
   </div>
 </div>
 
@@ -644,6 +767,18 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
   </div>
 </div>
 
+<div class="intro-modal-overlay" id="review-modal-overlay" onclick="closeReviewModal(event)">
+  <div class="intro-modal">
+    <div class="intro-modal-title">想幫 <span id="review-target-name"></span> 留一句推薦語嗎？</div>
+    <div class="intro-modal-sub">完全自願，純文字、沒有打分數——之後別人看到的是這段話，不是一個數字</div>
+    <textarea class="edit-bio-textarea" id="review-text" rows="3" placeholder="例如：合作起來很順、很準時、有自己的想法⋯"></textarea>
+    <div class="intro-modal-actions">
+      <button class="btn-copy" onclick="submitReview()">送出推薦語</button>
+      <button class="btn-close-intro" onclick="closeReviewModal()">先不寫</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -660,6 +795,16 @@ function darken(h,amt){const[r,g,b]=hexToRgb(h);const f=c=>Math.round(c*(1-amt))
 function accentPair(id){ return id%2===0 ? [BRAND,BRAND2] : [BRAND2,BRAND]; }
 function primaryColor(p){ return accentPair(p.id)[0]; }
 const STAR_SVG = `<svg viewBox="0 0 24 24" width="9" height="9" fill="currentColor" style="display:inline;vertical-align:-1px"><path d="M12 2.5l2.9 6.5 7.1.6-5.4 4.7 1.7 6.9L12 17.6 5.7 21.2l1.7-6.9L2 9.6l7.1-.6z"/></svg>`;
+// A link icon, not a checkmark — we're not claiming anyone verified this,
+// just being transparent that the person has linked an external portfolio.
+const LINK_SVG = `<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="var(--brand)" stroke-width="2.2" stroke-linecap="round" style="display:inline;vertical-align:-2px;flex-shrink:0"><path d="M10 13a5 5 0 0 0 7.07 0l1.93-1.93a5 5 0 0 0-7.07-7.07L10.5 5.43"/><path d="M14 11a5 5 0 0 0-7.07 0L5 12.93a5 5 0 0 0 7.07 7.07L13.5 18.57"/></svg>`;
+// Testimonials are voluntary written endorsements (like LinkedIn recommendations),
+// not a forced numeric rating — collaborating with someone isn't a transaction
+// to score, so there's no average here, just a count + the actual words.
+function testimonialStats(p){
+  if(!p.testimonials || !p.testimonials.length) return null;
+  return { count: p.testimonials.length, list: p.testimonials };
+}
 
 // ── Connection graph + BFS (machanism B+A: paths are found through whatever
 // connections already exist — including ones the platform made for you) ──
@@ -701,37 +846,50 @@ const PEOPLE = [
   {id:1, emoji:'🎨', name:'Ava Wu', role:'品牌視覺設計師 · 台北',
    tags:['品牌識別','插畫','草創友善'],
    bio:'幫 10+ 個台灣草創品牌從零建立視覺系統。喜歡那種還在摸索自己味道的小團隊，一起找出來很有趣。',
-   works:['✏️','🎭','🖼️'], via:'林雅婷', openTo:'接案', status:'open', cats:['設計','品牌'], refs:7},
+   works:['✏️','🎭','🖼️'], via:'林雅婷', status:'open', cofounder:false, cats:['設計','品牌'], refs:7,
+   hasPortfolio:true, portfolioLink:'behance.net/avawu',
+   testimonials:[{author:'陳建宏',text:'交件很準時，整個過程溝通很順，幾乎不用來回確認。'},{author:'吳宗翰',text:'風格很有自己的味道，給她方向之後不太需要管。'}]},
   {id:2, emoji:'📸', name:'Ken Tsai', role:'商業攝影 · 台南',
    tags:['商品攝影','人像','小品牌'],
    bio:'接過超商、夜市小吃、獨立服裝品牌的拍攝案。小預算也能聊，重點是做出有感覺的東西。',
-   works:['📷','🌆','👗'], via:'陳建宏', openTo:'接案', status:'full', cats:['攝影'], refs:4},
+   works:['📷','🌆','👗'], via:'陳建宏', status:'full', cofounder:false, cats:['攝影'], refs:4,
+   hasPortfolio:false, portfolioLink:null,
+   testimonials:[{author:'黃宇軒',text:'構圖真的很強，照片質感比預期好很多。'}]},
   {id:3, emoji:'💻', name:'Alex Lin', role:'全端工程師 · 新竹',
    tags:['React','Node.js','MVP開發'],
    bio:'幫三個草創團隊從概念做到上線，最快六週。想找長期合作的技術合夥人角色，不只是接案。',
-   works:['🛠️','📱','⚡'], via:'高志明', openTo:'合作', status:'seeking', cats:['開發'], refs:12},
+   works:['🛠️','📱','⚡'], via:'高志明', status:'open', cofounder:true, cats:['開發'], refs:12,
+   hasPortfolio:true, portfolioLink:'github.com/alexlin',
+   testimonials:[{author:'林雅婷',text:'技術很扎實，而且會主動回報進度，不用一直追他。'},{author:'陳建宏',text:'找他談合夥那次聊得很深，思考方式很成熟。'},{author:'高志明',text:'共事過最讓人放心的工程師之一。'}]},
   {id:4, emoji:'🎵', name:'Mia Chen', role:'音樂製作人 · 台北',
    tags:['廣告配樂','獨立音樂','聲音品牌'],
    bio:'做廣告配樂也做獨立創作，正在找想一起做聲音品牌的視覺創作者或導演合作。',
-   works:['🎧','🎹','🎬'], via:'吳宗翰', openTo:'合作', status:'seeking', cats:['音樂'], refs:3},
+   works:['🎧','🎹','🎬'], via:'吳宗翰', status:'open', cofounder:true, cats:['音樂'], refs:3,
+   hasPortfolio:false, portfolioLink:null,
+   testimonials:[{author:'黃宇軒',text:'創意很跳，會給你想不到的方向。'}]},
   {id:5, emoji:'🎭', name:'Sam Huang', role:'街頭藝人／表演者 · 高雄',
    tags:['雜技','街頭表演','活動演出'],
    bio:'從西門町到駁二都表演過，也接企業尾牙和市集活動。有品牌想跨界合作的可以聊。',
-   works:['🤹','🎪','✨'], via:'黃宇軒', openTo:'接案', status:'open', cats:['表演'], refs:5},
+   works:['🤹','🎪','✨'], via:'黃宇軒', status:'open', cofounder:false, cats:['表演'], refs:5,
+   hasPortfolio:false, portfolioLink:null,
+   testimonials:[{author:'林雅婷',text:'現場感染力很強，活動氣氛整個被他帶起來。'},{author:'吳宗翰',text:'敬業，颱風天的戶外場照樣準時到。'}]},
   {id:6, emoji:'✍️', name:'Nina Fang', role:'品牌文案 · 台中',
    tags:['社群文案','品牌故事','新創'],
    bio:'專門幫那種「東西很好但不知道怎麼說」的品牌找到自己的語氣。做過食品、服裝、軟體新創。',
-   works:['📝','💬','🏷️'], via:'林雅婷', openTo:'接案', status:'open', cats:['文案','品牌'], refs:9},
+   works:['📝','💬','🏷️'], via:'林雅婷', status:'open', cofounder:false, cats:['文案','品牌'], refs:9,
+   hasPortfolio:true, portfolioLink:'instagram.com/ninafang.copy',
+   testimonials:[{author:'陳建宏',text:'文案有記憶點，客戶看完直接說「對，就是這個語氣」。'},{author:'高志明',text:'改稿很有耐心，會解釋為什麼這樣寫比較好。'}]},
   {id:7, emoji:'🔬', name:'Lily Chen', role:'UX 研究員 · 台北',
    tags:['使用者研究','可用性測試','新創'],
    bio:'幫新創團隊做使用者訪談跟可用性測試，擅長把模糊的「使用者好像不喜歡」變成具體可以動的洞察。',
-   works:['📋','🎯','📊'], via:'陳怡君', openTo:'接案', status:'open', cats:['設計'], refs:2},
+   works:['📋','🎯','📊'], via:'陳怡君', status:'open', cofounder:false, cats:['設計'], refs:2,
+   hasPortfolio:false, portfolioLink:null,
+   testimonials:[]},
 ];
 
 const STATUS_MAP = {
-  open:{label:'開放接案與合作中', cls:'open'},
-  full:{label:'專案滿載，僅限交流', cls:'full'},
-  seeking:{label:'尋找共同創辦人/夥伴', cls:'seeking'},
+  open:{label:'開放認識新朋友', cls:'open'},
+  full:{label:'暫不開放新的合作', cls:'full'},
 };
 
 let liked = new Set();
@@ -740,8 +898,35 @@ let activeChip = '全部';
 let currentPerson = null;
 let sheetList = [];
 let sheetIndex = 0;
-let myBio = '還沒有自介，點擊編輯讓大家認識你。';
 let myStatus = 'open';
+let myCofounder = false;
+
+// ── Full profile data + the main→sub skill taxonomy (#5: "編曲" alone isn't
+// specific enough — 混音/修音 etc. are real, different skills) ──
+const CATEGORY_TREE = {
+  '設計': ['品牌識別','UI/UX','插畫','平面設計'],
+  '開發': ['前端','後端','全端','App開發'],
+  '攝影': ['人像','商品','婚禮','空拍'],
+  '音樂': ['編曲','混音','修音','演奏','作詞作曲'],
+  '表演': ['街頭表演','主持','戲劇','舞蹈'],
+  '品牌': ['品牌策略','社群經營','公關'],
+  '文案': ['社群文案','廣告文案','品牌故事'],
+  '草創': ['產品經理','商業開發','募資'],
+};
+const EMOJI_OPTIONS = ['🙂','🎨','💻','📸','🎵','🎭','✍️','🔬','🚀','🌱','😎','🧠'];
+let myProfile = {
+  emoji: '🙂',
+  name: '你的名字',
+  role: '你的專業',
+  location: '台北',
+  skills: [], // array of "主類別・子類別" strings — required, at least 1
+  hasPortfolio: false,
+  portfolioLink: '',
+  bio: '還沒有自介，點擊「編輯個人檔案」讓大家認識你。',
+};
+let epEmoji = myProfile.emoji;
+let epExpandedMains = new Set();
+let epSkills = new Set();
 
 // ── Cards ──
 function renderCards(people){
@@ -751,38 +936,55 @@ function renderCards(people){
     return;
   }
   grid.innerHTML = people.map((p,i)=>{
-    const [c1,c2] = accentPair(p.id);
-    const st = STATUS_MAP[p.status];
+    const c1 = primaryColor(p);
+    // Cofounder-seeking takes the one badge slot when true — it's the more
+    // interesting signal, and stacking a second ribbon just to show both
+    // ate up the whole cover for very little payoff.
+    const badge = p.cofounder
+      ? {label:'🤝 找共同創辦人/夥伴', cls:'cofounder'}
+      : STATUS_MAP[p.status];
+    const stats = testimonialStats(p);
+    const trustBadge = stats
+      ? `💬<span style="margin-left:2px">${stats.count}</span>`
+      : `<span style="color:var(--green);font-family:var(--f-mono);font-size:9px;">🌱新成員</span>`;
     const heart = liked.has(p.id)
       ? `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.5-9.5-9C1 8 2.5 4.5 6 4c2.2-.3 4 1 6 3.2C14 5 15.8 3.7 18 4c3.5.5 5 4 3.5 8-2 4.5-9.5 9-9.5 9z"/></svg>`
       : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7.5-4.5-9.5-9C1 8 2.5 4.5 6 4c2.2-.3 4 1 6 3.2C14 5 15.8 3.7 18 4c3.5.5 5 4 3.5 8-2 4.5-9.5 9-9.5 9z"/></svg>`;
     return `
     <div class="pcard" style="animation-delay:${i*0.04}s" onclick="openSheet(${p.id})">
-      <div class="pcard-cover" style="background:linear-gradient(135deg, ${c1} 0%, ${c2} 100%)">
-        <div class="pcard-dots"></div>
-        <div class="status-badge ${st.cls}"><span class="status-dot ${st.cls}"></span>${st.label}</div>
-        <div class="btn-like${liked.has(p.id)?' liked':''}" onclick="toggleLike(event,${p.id})">${heart}</div>
-        <div class="pcard-avatar" style="border-color:${c1};background:${rgba(c1,0.16)};box-shadow:0 4px 14px ${rgba(c1,0.3)}">${p.emoji}</div>
-      </div>
-      <div class="pcard-body">
-        <div class="pcard-name-row"><div class="pcard-name">${p.name}</div><div class="ref-mini">${STAR_SVG}${p.refs}</div></div>
-        <div class="pcard-role">${p.role}</div>
-        <div class="pcard-ref-chip"><span class="ref-tag-mono">REF</span><span class="name">${p.via}</span></div>
-        <div class="pcard-tags">
-          ${p.tags.map((t,ti)=>`<span class="ptag${ti===0?' hot':''}" ${ti===0?`style="color:${c1};background:${rgba(c1,0.12)}"`:''}>${t}</span>`).join('')}
+      <div class="btn-like${liked.has(p.id)?' liked':''}" onclick="toggleLike(event,${p.id})">${heart}</div>
+      <div class="pcard-top">
+        <div class="pcard-avatar" style="box-shadow:0 0 0 2px ${rgba(c1,0.5)}">${p.emoji}</div>
+        <div class="pcard-info">
+          <div class="pcard-name-row"><div class="pcard-name">${p.name}${p.hasPortfolio?' '+LINK_SVG:''}</div><div class="ref-mini">${trustBadge}</div></div>
+          <div class="pcard-role">${p.role}</div>
         </div>
+      </div>
+      <div class="status-badge ${badge.cls}"><span class="status-dot ${badge.cls}"></span>${badge.label}</div>
+      <div class="pcard-ref-chip"><span class="ref-tag-mono">REF</span><span class="name">${p.via}</span></div>
+      <div class="pcard-tags">
+        ${p.tags.map((t,ti)=>`<span class="ptag${ti===0?' hot':''}" ${ti===0?`style="color:${c1};background:${rgba(c1,0.12)}"`:''}>${t}</span>`).join('')}
       </div>
     </div>`;
   }).join('');
 }
 
+let filterCofounder = false;
 function getFiltered(){
   let list = PEOPLE.slice();
   const q = document.getElementById('search-inp').value.trim().toLowerCase();
   if(activeChip!=='全部') list = list.filter(p=>p.cats.includes(activeChip));
+  if(filterCofounder) list = list.filter(p=>p.cofounder);
   if(q) list = list.filter(p=>(p.name+p.role+p.tags.join('')+p.bio).toLowerCase().includes(q));
   list.sort((a,b)=>b.refs-a.refs); // 被推薦越多，排名越前面
   return list;
+}
+
+function toggleCofounderFilter(el){
+  filterCofounder = !filterCofounder;
+  el.classList.toggle('active', filterCofounder);
+  el.style.background = filterCofounder ? rgba(BRAND2,0.14) : '';
+  renderCards(getFiltered());
 }
 
 function setChip(el,cat){
@@ -810,14 +1012,19 @@ function renderSheet(){
   if(!p) return;
   currentPerson = p;
   const [color, color2] = accentPair(p.id);
-  document.getElementById('s-cover').innerHTML = `<div style="position:absolute;inset:0;background:linear-gradient(135deg,${color} 0%,${color2} 100%)"></div><div class="pcard-dots" style="opacity:.35"></div><div style="position:relative;z-index:1;">${p.emoji}</div>`;
-  document.getElementById('s-name').textContent = p.name;
-  document.getElementById('s-role').textContent = p.role;
+  document.getElementById('s-cover').innerHTML = `<div style="position:absolute;inset:0;background:linear-gradient(135deg,${color} 0%,${color2} 100%)"></div><div class="pcard-dots" style="opacity:.35"></div>${p.cofounder?`<div class="cofounder-ribbon" style="height:24px;font-size:11px;">🤝 在找共同創辦人/夥伴</div>`:''}<div style="position:relative;z-index:1;">${p.emoji}</div>`;
+  document.getElementById('s-name').innerHTML = `${p.name}${p.hasPortfolio?' '+LINK_SVG:''}`;
+  document.getElementById('s-role').innerHTML = p.role + (p.hasPortfolio ? ` <span style="font-family:var(--f-mono);font-size:10.5px;">· 作品集 <a href="https://${p.portfolioLink}" target="_blank" rel="noopener noreferrer" style="color:var(--brand);" onclick="event.stopPropagation()">${p.portfolioLink}</a></span>` : '');
   const st = STATUS_MAP[p.status];
-  document.getElementById('s-status').innerHTML = `<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;"><div class="status-badge ${st.cls}" style="position:static;display:inline-flex;"><span class="status-dot ${st.cls}"></span>${st.label}</div><span style="display:inline-flex;align-items:center;gap:3px;font-family:var(--f-mono);font-size:11px;font-weight:700;color:var(--brand);">${STAR_SVG} 被推薦 ${p.refs} 次</span></div>`;
+  document.getElementById('s-status').innerHTML = `<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;"><div class="status-badge ${st.cls}" style="position:static;display:inline-flex;"><span class="status-dot ${st.cls}"></span>${st.label}</div><span style="font-family:var(--f-mono);font-size:11px;color:var(--muted);">🔗 ${p.refs} 人推薦上架</span></div>`;
+  const stats = testimonialStats(p);
+  document.getElementById('s-review').innerHTML = stats
+    ? `<div class="testimonial-list"><div class="testimonial-count">💬 ${stats.count} 則推薦語</div>${stats.list.map(t=>`<div class="testimonial-item">「${t.text}」<span class="testimonial-author">— ${t.author}</span></div>`).join('')}</div>`
+    : `<div class="review-summary empty">🌱 還沒有人留下推薦語——成為第一個跟他合作並留言的人</div>`;
   document.getElementById('s-tags').innerHTML = p.tags.map((t,i)=>`<span class="sheet-tag" ${i===0?`style="color:${color};background:${rgba(color,0.12)}"`:''}>${t}</span>`).join('');
   document.getElementById('s-bio').textContent = p.bio;
   document.getElementById('s-works').innerHTML = p.works.map(w=>`<div class="work-thumb">${w}</div>`).join('');
+  renderRecommendBtn(p);
 
   const path = bfsPath(NETWORK, '你', p.via); // null = no mutual connection found
   const sChain = document.getElementById('s-chain');
@@ -942,7 +1149,32 @@ function copyIntroText(){
   }, 2000);
 }
 
-// ── Like ──
+// ── Post-collaboration testimonial: voluntary, written, no score. This is
+// what separates "got vouched onto the platform" (refs) from "actually had
+// a good collaboration" (testimonials) — without turning people into a
+// product with a star rating. ──
+let reviewTarget = null;
+
+function openReviewModal(person){
+  reviewTarget = person;
+  document.getElementById('review-target-name').textContent = person.name;
+  document.getElementById('review-text').value = '';
+  document.getElementById('review-modal-overlay').classList.add('show');
+}
+function closeReviewModal(e){
+  if(!e || e.target===document.getElementById('review-modal-overlay')){
+    document.getElementById('review-modal-overlay').classList.remove('show');
+  }
+}
+function submitReview(){
+  if(!reviewTarget) return;
+  const text = document.getElementById('review-text').value.trim();
+  if(!text){ showToast('寫點什麼再送出，或按「先不寫」跳過'); return; }
+  reviewTarget.testimonials.push({ author:'你', text });
+  document.getElementById('review-modal-overlay').classList.remove('show');
+  showToast(`已送出對 ${reviewTarget.name} 的推薦語，謝謝你`);
+  renderCards(getFiltered()); // refresh in case the card grid is showing this person
+}
 function toggleLike(e,id){
   e.stopPropagation();
   const btn = e.currentTarget;
@@ -1002,6 +1234,7 @@ function acceptReq(i){
   requests.splice(i,1);
   renderRequests();
   updateNavDot();
+  openReviewModal(p);
 }
 
 function declineReq(i){
@@ -1094,34 +1327,170 @@ function switchTab(tab){
   document.getElementById('screen-'+tab).classList.add('active');
   document.getElementById('nav-'+tab).classList.add('active');
   if(tab==='connect'){ renderRequests(); renderIncoming(); }
+  if(tab==='board'){ renderBoard(); }
 }
 
 // ── Profile: status picker + editable bio (merged from uploaded variant) ──
 function renderStatusPicker(){
-  const colorMap = {open:'#16A34A', full:'#DC2626', seeking:'#D97706'};
+  const colorMap = {open:'#16A34A', full:'#DC2626'};
   document.getElementById('status-picker').innerHTML = Object.keys(STATUS_MAP).map(key=>{
     const s = STATUS_MAP[key];
     const active = key===myStatus;
     const c = colorMap[key];
     return `<button class="status-pick-btn${active?' active':''}" style="${active?`background:${rgba(c,0.14)};border-color:${c};color:${c}`:''}" onclick="setMyStatus('${key}')"><span class="status-dot ${s.cls}" style="margin:0;"></span>${s.label}</button>`;
-  }).join('');
+  }).join('') + `<button class="status-pick-btn${myCofounder?' active':''}" style="${myCofounder?`background:${rgba(BRAND2,0.14)};border-color:var(--brand2);color:var(--brand2)`:''}" onclick="toggleMyCofounder()">🤝 我也在找共同創辦人/夥伴</button>`;
 }
 function setMyStatus(key){ myStatus = key; renderStatusPicker(); showToast('狀態已更新'); }
+function toggleMyCofounder(){ myCofounder = !myCofounder; renderStatusPicker(); showToast(myCofounder?'已標示為找共同創辦人/夥伴':'已取消標示'); }
 
-function openEditBio(){
-  document.getElementById('edit-bio-textarea').value = myBio;
-  document.getElementById('edit-bio-overlay').classList.add('show');
+// ── Invite / growth loop: the platform's own user-acquisition mechanic.
+// Ties directly into the existing referral-slot scarcity — inviting a friend
+// who joins earns you an extra slot, instead of growth depending on ads. ──
+let invitedCount = 0;
+let bonusSlots = 0;
+const BASE_SLOTS = 5;
+function totalSlots(){ return BASE_SLOTS + bonusSlots; }
+function copyInviteLink(){
+  const link = document.getElementById('invite-link').value;
+  const doFallback = () => {
+    const ta = document.createElement('textarea');
+    ta.value = link; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); }catch(err){}
+    document.body.removeChild(ta);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(link).catch(doFallback); }
+  else { doFallback(); }
+  showToast('邀請連結已複製，分享給朋友吧');
 }
-function closeEditBio(e){
-  if(!e || e.target===document.getElementById('edit-bio-overlay')){
-    document.getElementById('edit-bio-overlay').classList.remove('show');
+function simulateInviteAccepted(){
+  invitedCount++; bonusSlots++;
+  document.getElementById('invite-count').textContent = invitedCount;
+  renderRecommendStat();
+  showToast('🎉 有朋友透過你的連結加入了！+1 推薦名額');
+}
+
+// ── Recommend (the missing link): refs/slots/「我推薦的人脈」were all just
+// numbers with no action behind them. This is the actual action. ──
+let myRecommended = []; // array of person objects you've spent a slot on
+function renderRecommendStat(){
+  document.getElementById('stat-slots').textContent = totalSlots() - myRecommended.length;
+  document.getElementById('recommend-section-label').textContent = `我推薦的人脈（${myRecommended.length}/${totalSlots()}）`;
+  document.getElementById('my-recommended-list').innerHTML = myRecommended.length
+    ? myRecommended.map(p=>{
+        const c = primaryColor(p);
+        return `<div class="net-chip"><span class="net-ava" style="box-shadow:0 0 0 1.5px ${rgba(c,0.5)}">${p.emoji}</span>${p.name}</div>`;
+      }).join('')
+    : `<div class="profile-empty" style="padding:6px 0;text-align:left;">還沒有推薦任何人<br>去探索頁找到你認可的強者</div>`;
+}
+function renderRecommendBtn(p){
+  const btn = document.getElementById('s-recommend-btn');
+  if(!btn) return;
+  const already = myRecommended.some(x=>x.id===p.id);
+  const full = !already && myRecommended.length >= totalSlots();
+  btn.className = 'btn-recommend' + (already?' done':'') + (full?' disabled':'');
+  if(already){
+    btn.innerHTML = `✓ 你已經推薦過 ${p.name} 了`;
+  } else if(full){
+    btn.innerHTML = `推薦名額用完了（邀請朋友加入可以多拿名額）`;
+  } else {
+    btn.innerHTML = `🌟 推薦 ${p.name} 給社群（還剩 ${totalSlots()-myRecommended.length} 個名額）`;
   }
 }
-function saveBio(){
-  myBio = document.getElementById('edit-bio-textarea').value.trim() || '還沒有自介，點擊編輯讓大家認識你。';
-  document.getElementById('my-bio-text').textContent = myBio;
-  document.getElementById('edit-bio-overlay').classList.remove('show');
-  showToast('自介已更新');
+function recommendPerson(){
+  if(!currentPerson) return;
+  const p = currentPerson;
+  if(myRecommended.some(x=>x.id===p.id)){ showToast('你已經推薦過這個人了'); return; }
+  if(myRecommended.length >= totalSlots()){ showToast('推薦名額用完了，邀請朋友加入可以多拿名額'); return; }
+  myRecommended.push(p);
+  p.refs++;
+  renderRecommendStat();
+  renderRecommendBtn(p);
+  renderCards(getFiltered()); // refs changed → ranking may shift
+  showToast(`🌟 已推薦 ${p.name}，他的被推薦次數 +1`);
+}
+
+// ── Full profile editor ──
+function renderEmojiPicker(){
+  document.getElementById('ep-emoji-picker').innerHTML = EMOJI_OPTIONS.map(e=>
+    `<button class="ep-emoji-btn${e===epEmoji?' active':''}" onclick="setEpEmoji('${e}')">${e}</button>`
+  ).join('');
+}
+function setEpEmoji(e){ epEmoji = e; renderEmojiPicker(); }
+
+function toggleEpMain(main){
+  if(epExpandedMains.has(main)) epExpandedMains.delete(main); else epExpandedMains.add(main);
+  renderEpCats();
+}
+function toggleEpSub(main, sub){
+  const key = `${main}・${sub}`;
+  if(epSkills.has(key)) epSkills.delete(key); else epSkills.add(key);
+  renderEpCats();
+}
+function removeEpSkill(key){ epSkills.delete(key); renderEpCats(); }
+
+function renderEpCats(){
+  document.getElementById('ep-main-cats').innerHTML = CATEGORIES.map(main=>{
+    const active = epExpandedMains.has(main);
+    return `<button class="ep-main-chip${active?' active':''}" onclick="toggleEpMain('${main}')">${main}</button>`;
+  }).join('');
+  document.getElementById('ep-sub-cats').innerHTML = [...epExpandedMains].map(main=>{
+    const subs = CATEGORY_TREE[main] || [];
+    return `<div class="ep-sub-group"><div class="ep-sub-group-label">${main} 的細分類別</div><div class="ep-sub-chips">${subs.map(sub=>{
+      const key = `${main}・${sub}`;
+      const active = epSkills.has(key);
+      return `<button class="ep-sub-chip${active?' active':''}" onclick="toggleEpSub('${main}','${sub}')">${sub}</button>`;
+    }).join('')}</div></div>`;
+  }).join('');
+  document.getElementById('ep-selected-tags').innerHTML = epSkills.size
+    ? [...epSkills].map(key=>`<span class="ep-selected-tag">${key}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" onclick="removeEpSkill('${key}')"><path d="M18 6L6 18M6 6l12 12"/></svg></span>`).join('')
+    : `<span style="font-size:11px;color:var(--muted);">點選上面的主類別，細分類別會展開在下面</span>`;
+}
+
+function openEditProfile(){
+  epEmoji = myProfile.emoji;
+  epSkills = new Set(myProfile.skills);
+  epExpandedMains = new Set([...epSkills].map(s=>s.split('・')[0]));
+  document.getElementById('ep-name').value = myProfile.name;
+  document.getElementById('ep-role').value = myProfile.role;
+  document.getElementById('ep-location').value = myProfile.location;
+  document.getElementById('ep-portfolio').value = myProfile.portfolioLink;
+  document.getElementById('ep-bio').value = myProfile.bio;
+  renderEmojiPicker();
+  renderEpCats();
+  document.getElementById('edit-profile-overlay').classList.add('show');
+}
+function closeEditProfile(e){
+  if(!e || e.target===document.getElementById('edit-profile-overlay')){
+    document.getElementById('edit-profile-overlay').classList.remove('show');
+  }
+}
+function saveProfile(){
+  if(epSkills.size === 0){ showToast('請至少選擇一項職業與技能'); return; }
+  myProfile.emoji = epEmoji;
+  myProfile.name = document.getElementById('ep-name').value.trim() || '你的名字';
+  myProfile.role = document.getElementById('ep-role').value.trim() || '你的專業';
+  myProfile.location = document.getElementById('ep-location').value.trim() || '台北';
+  myProfile.skills = [...epSkills];
+  const link = document.getElementById('ep-portfolio').value.trim();
+  myProfile.portfolioLink = link;
+  myProfile.hasPortfolio = !!link;
+  myProfile.bio = document.getElementById('ep-bio').value.trim() || '還沒有自介，點擊「編輯個人檔案」讓大家認識你。';
+  renderMyProfile();
+  document.getElementById('edit-profile-overlay').classList.remove('show');
+  showToast('個人檔案已更新');
+}
+function renderMyProfile(){
+  document.getElementById('profile-ava').textContent = myProfile.emoji;
+  document.getElementById('profile-name').textContent = myProfile.name;
+  document.getElementById('profile-role').textContent = `${myProfile.role} · ${myProfile.location}`;
+  document.getElementById('my-bio-text').textContent = myProfile.bio;
+  document.getElementById('my-skill-tags').innerHTML = myProfile.skills.length
+    ? myProfile.skills.map(s=>`<span class="ptag" style="background:rgba(124,92,255,0.12);color:var(--brand2);font-weight:600;">${s}</span>`).join('')
+    : `<div class="my-skill-empty">還沒有設定職業與技能，點「編輯個人檔案」新增</div>`;
+  document.getElementById('my-portfolio-row').innerHTML = myProfile.hasPortfolio
+    ? `${LINK_SVG} 作品集：<a href="https://${myProfile.portfolioLink}" target="_blank" rel="noopener noreferrer">${myProfile.portfolioLink}</a>`
+    : '';
 }
 
 function dismissWelcome(){
@@ -1136,6 +1505,7 @@ let boardPosts = [
 ];
 let boardSelectedCat = '設計';
 let boardIdSeq = 100;
+let boardTab = 'browse';
 
 function renderBoardChips(){
   document.getElementById('board-cat-chips').innerHTML = CATEGORIES.map(cat=>{
@@ -1153,6 +1523,7 @@ function submitBoardPost(){
   document.getElementById('board-note').value='';
   document.getElementById('board-composer').classList.remove('show');
   renderBoard();
+  setBoardTab('mine');
   showToast('已公開發佈，等有緣人看到 🌱');
   const respondersPool = ['林雅婷的朋友','社群裡的陌生人','陳建宏'];
   setTimeout(()=>{
@@ -1173,28 +1544,45 @@ function respondBoard(id){
   showToast('已私訊對方，謝謝你幫忙牽線 🙌');
 }
 
+function setBoardTab(tab){
+  boardTab = tab;
+  document.getElementById('board-tab-browse').classList.toggle('active', tab==='browse');
+  document.getElementById('board-tab-mine').classList.toggle('active', tab==='mine');
+  document.getElementById('board-browse-pane').style.display = tab==='browse' ? 'block' : 'none';
+  document.getElementById('board-mine-pane').style.display = tab==='mine' ? 'block' : 'none';
+}
+
+function boardPostHtml(post){
+  let actionHtml;
+  if(post.mine){
+    actionHtml = post.status==='pending'
+      ? `<div class="board-post-status">⏳ 等待社群回應…</div>`
+      : `<div class="board-post-status success">🎉 ${post.responder} 願意幫你引薦</div>`;
+  } else {
+    actionHtml = post.status==='done'
+      ? `<button class="board-post-action done">已回應，謝謝你</button>`
+      : `<button class="board-post-action" onclick="respondBoard(${post.id})">我可以幫忙引薦</button>`;
+  }
+  return `
+  <div class="board-post">
+    <div class="board-post-top">
+      <span class="board-post-cat">${post.cat}</span>
+      <span class="board-post-name">${post.mine?'你':post.name}</span>
+    </div>
+    <div class="board-post-note">${post.note}</div>
+    ${actionHtml}
+  </div>`;
+}
+
 function renderBoard(){
-  document.getElementById('board-list').innerHTML = boardPosts.map(post=>{
-    let actionHtml;
-    if(post.mine){
-      actionHtml = post.status==='pending'
-        ? `<div class="board-post-status">⏳ 等待社群回應…</div>`
-        : `<div class="board-post-status success">🎉 ${post.responder} 願意幫你引薦</div>`;
-    } else {
-      actionHtml = post.status==='done'
-        ? `<button class="board-post-action done">已回應，謝謝你</button>`
-        : `<button class="board-post-action" onclick="respondBoard(${post.id})">我可以幫忙引薦</button>`;
-    }
-    return `
-    <div class="board-post">
-      <div class="board-post-top">
-        <span class="board-post-cat">${post.cat}</span>
-        <span class="board-post-name">${post.mine?'你':post.name}</span>
-      </div>
-      <div class="board-post-note">${post.note}</div>
-      ${actionHtml}
-    </div>`;
-  }).join('');
+  const browse = boardPosts.filter(p=>!p.mine);
+  const mine = boardPosts.filter(p=>p.mine);
+  document.getElementById('board-list').innerHTML = browse.length
+    ? browse.map(boardPostHtml).join('')
+    : `<div class="profile-empty" style="padding:20px 0;">目前沒有其他人發起的求引薦<br>看看能不能先幫上誰</div>`;
+  document.getElementById('board-mine-list').innerHTML = mine.length
+    ? mine.map(boardPostHtml).join('')
+    : '';
 }
 
 // ── Toast ──
@@ -1210,6 +1598,8 @@ renderCards(getFiltered());
 renderRequests();
 renderIncoming();
 renderMyNetwork();
+renderMyProfile();
+renderRecommendStat();
 renderStatusPicker();
 renderBoardChips();
 renderBoard();
