@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Nexus5 · 探索</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='24' y2='24'%3E%3Cstop offset='0' stop-color='%231B4FFF'/%3E%3Cstop offset='1' stop-color='%237C5CFF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='24' height='24' rx='6' fill='url(%23g)'/%3E%3Ccircle cx='12' cy='7' r='2.3' fill='white'/%3E%3Ccircle cx='7' cy='16' r='2.3' fill='white'/%3E%3Ccircle cx='17' cy='16' r='2.3' fill='white'/%3E%3Cpath d='M12 7L7 16M12 7L17 16M7 16L17 16' stroke='white' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='24' y2='24'%3E%3Cstop offset='0' stop-color='%231B4FFF'/%3E%3Cstop offset='1' stop-color='%237C5CFF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='24' height='24' rx='6' fill='url(%23g)'/%3E%3Cpath d='M12 5.5L6.5 18.5M12 5.5L17.5 18.5M6.5 18.5L17.5 18.5' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='12' cy='5.5' r='2.6' fill='white'/%3E%3Ccircle cx='6.5' cy='18.5' r='2.6' fill='white'/%3E%3Ccircle cx='17.5' cy='18.5' r='2.6' fill='white'/%3E%3C/svg%3E">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Space+Grotesk:wght@500;600;700&family=Unbounded:wght@600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 
@@ -35,6 +35,7 @@
   --f-display:'Space Grotesk','Noto Sans TC',sans-serif;
   --f-body:'Noto Sans TC',sans-serif;
   --f-mono:'JetBrains Mono','Noto Sans TC',monospace;
+  --f-logo:'Unbounded','Noto Sans TC',sans-serif;
 }
 
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f-body);-webkit-font-smoothing:antialiased;overflow:hidden;}
@@ -101,9 +102,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
   background:linear-gradient(to bottom,var(--bg) 65%,transparent);
   z-index:100;
 }
-.topbar-logo{display:flex;align-items:center;gap:0;font-family:var(--f-display);font-size:18px;font-weight:700;letter-spacing:-.3px;flex-shrink:0;}
-.topbar-logo .lm-text{background:linear-gradient(120deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
-.topbar-logo .lm-x{flex-shrink:0;margin:0 -1px;position:relative;top:0.5px;}
+.topbar-logo{display:flex;align-items:center;gap:3px;font-family:'Unbounded','Space Grotesk',sans-serif;font-size:17px;font-weight:800;letter-spacing:-.4px;color:var(--text);flex-shrink:0;}
+.lm-5-badge{background:linear-gradient(135deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
 .topbar-search{
   flex:1;margin:0 12px;background:var(--surface2);border:1px solid var(--border);
   border-radius:11px;display:flex;align-items:center;gap:8px;padding:0 12px;height:36px;cursor:text;
@@ -488,16 +488,15 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 <div id="loading-screen">
   <div class="load-mark-wrap">
     <div class="load-ring"></div>
-    <svg class="load-mark" viewBox="0 0 24 24" width="20" height="20" fill="none"><defs><linearGradient id="logoGradLoad" x1="3" y1="3" x2="21" y2="21"><stop offset="0" stop-color="#1B4FFF"/><stop offset="1" stop-color="#7C5CFF"/></linearGradient></defs><path d="M12 5L5 18M12 5L19 18M5 18L19 18" stroke="url(#logoGradLoad)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="5" r="2.6" fill="url(#logoGradLoad)"/><circle cx="5" cy="18" r="2.6" fill="url(#logoGradLoad)"/><circle cx="19" cy="18" r="2.6" fill="url(#logoGradLoad)"/></svg>
+    <svg class="load-mark" viewBox="0 0 24 24" width="22" height="22"><defs><linearGradient id="logoGradLoad" x1="2" y1="0" x2="22" y2="22"><stop offset="0" stop-color="#1B4FFF"/><stop offset="1" stop-color="#7C5CFF"/></linearGradient></defs><path d="M12 4L5 19M12 4L19 19M5 19L19 19" stroke="url(#logoGradLoad)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="4" r="3.1" fill="url(#logoGradLoad)"/><circle cx="5" cy="19" r="3.1" fill="url(#logoGradLoad)"/><circle cx="19" cy="19" r="3.1" fill="url(#logoGradLoad)"/></svg>
   </div>
-  <div class="load-text">NEXU5 · <b>Connecting People</b></div>
+  <div class="load-text"><span style="font-family:'Unbounded','Space Grotesk',sans-serif;font-weight:800;color:var(--text);">NEXU<span class="lm-5-badge" style="font-size:13px;">5</span></span> · <b>Connecting People</b></div>
 </div>
 
 <header class="topbar">
   <div class="topbar-logo">
-    <span class="lm-text">NEXU</span>
-    <svg class="lm-x" viewBox="0 0 24 24" width="15" height="15" fill="none"><defs><linearGradient id="logoGradX" x1="3" y1="3" x2="21" y2="21"><stop offset="0" stop-color="#1B4FFF"/><stop offset="1" stop-color="#7C5CFF"/></linearGradient></defs><path d="M12 5L5 18M12 5L19 18M5 18L19 18" stroke="url(#logoGradX)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="5" r="2.5" fill="url(#logoGradX)"/><circle cx="5" cy="18" r="2.5" fill="url(#logoGradX)"/><circle cx="19" cy="18" r="2.5" fill="url(#logoGradX)"/></svg>
-    <span class="lm-text">5</span>
+    <svg viewBox="0 0 24 24" width="20" height="20" style="flex-shrink:0;"><defs><linearGradient id="logoGradTop" x1="2" y1="0" x2="22" y2="22"><stop offset="0" stop-color="#1B4FFF"/><stop offset="1" stop-color="#7C5CFF"/></linearGradient></defs><path d="M12 4L5 19M12 4L19 19M5 19L19 19" stroke="url(#logoGradTop)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="4" r="3.1" fill="url(#logoGradTop)"/><circle cx="5" cy="19" r="3.1" fill="url(#logoGradTop)"/><circle cx="19" cy="19" r="3.1" fill="url(#logoGradTop)"/></svg>
+    NEXU<span class="lm-5-badge">5</span>
   </div>
   <div class="topbar-search">
     <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-3.8-3.8"/></svg>
@@ -748,7 +747,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
       <div class="welcome-emoji" style="background:rgba(255,255,255,.1)">💻</div>
     </div>
     <div class="welcome-body">
-      <div class="welcome-title">歡迎來到 Nexus5</div>
+      <div class="welcome-title">歡迎來到 <span style="font-family:'Unbounded','Space Grotesk',sans-serif;font-weight:800;">NEXU<span class="lm-5-badge" style="font-size:16px;">5</span></span></div>
       <div class="welcome-sub">認識值得信任的創作者——直接發送認識請求就能開始，有共同朋友的話，對方更容易回應你。</div>
       <div class="welcome-step">
         <div class="welcome-step-icon">🔍</div>
