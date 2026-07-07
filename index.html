@@ -48,7 +48,20 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
     radial-gradient(circle at 50% 100%, rgba(27,79,255,0.05), transparent 42%);
 }
 
-/* ── Loading Screen ── */
+/* ── Tally Waitlist Overlay ── */
+.tally-overlay{position:fixed;inset:0;z-index:800;background:rgba(17,21,28,0.65);backdrop-filter:blur(4px);display:none;align-items:flex-end;justify-content:center;padding:12px;}
+.tally-overlay.show{display:flex;}
+.tally-card{background:var(--surface);border-radius:20px;width:100%;max-width:440px;overflow:hidden;animation:slideUp .22s cubic-bezier(.25,.46,.45,.94);box-shadow:0 -8px 30px rgba(17,21,28,0.14);}
+.tally-header{background:linear-gradient(135deg,var(--brand),var(--brand2));padding:20px 20px 18px;color:#fff;}
+.tally-header h3{font-family:var(--f-display);font-size:16px;font-weight:700;margin-bottom:4px;}
+.tally-header p{font-size:12.5px;opacity:.85;line-height:1.5;}
+.tally-body{padding:18px 20px 24px;}
+.tally-body p{font-size:13px;color:var(--sub);line-height:1.6;margin-bottom:16px;}
+.tally-actions{display:flex;gap:10px;}
+.tally-btn-main{flex:1;background:linear-gradient(120deg,var(--brand),var(--brand2));color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;font-family:var(--f-body);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:opacity .15s;}
+.tally-btn-main:hover{opacity:.88;}
+.tally-btn-close{background:var(--surface2);color:var(--sub);border:1px solid var(--border);border-radius:12px;padding:13px 16px;font-size:13px;font-family:var(--f-body);cursor:pointer;flex-shrink:0;}
+
 #loading-screen{
   position:fixed;inset:0;z-index:9999;
   background:var(--bg);
@@ -760,7 +773,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
         <div class="welcome-step-icon">⭐</div>
         <div><div class="welcome-step-title">推薦名額稀缺，每個都珍貴</div><div class="welcome-step-desc">每人只有 5 個名額。被推薦越多，你在探索頁排名越前面。</div></div>
       </div>
-      <button class="btn-connect-sheet" style="width:100%" onclick="dismissWelcome()">開始探索</button>
+      <button class="btn-connect-sheet" style="width:100%" onclick="handleWelcomeCTA()">加入早鳥名單 / 先探索看看</button>
     </div>
   </div>
 </div>
@@ -773,6 +786,25 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
     <div class="intro-modal-actions">
       <button class="btn-copy" onclick="submitReview()">送出推薦語</button>
       <button class="btn-close-intro" onclick="closeReviewModal()">先不寫</button>
+    </div>
+  </div>
+</div>
+
+<div class="tally-overlay" id="tally-overlay" onclick="closeTally(event)">
+  <div class="tally-card">
+    <div class="tally-header">
+      <h3 id="tally-title">🔒 這個功能需要帳號</h3>
+      <p id="tally-desc">NEXU5 目前是 Beta 測試版，留下 Email，開放時第一個通知你。</p>
+    </div>
+    <div class="tally-body">
+      <p>這個 prototype 是真實產品的互動示範——後端還沒開放。留下你的 Email，我們會在正式上線時通知你，也讓我知道你有興趣讓這個東西真的存在。</p>
+      <div class="tally-actions">
+        <button class="tally-btn-main" onclick="openTallyForm()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          加入 Early Access 名單
+        </button>
+        <button class="tally-btn-close" onclick="closeTally()">之後再說</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1092,11 +1124,11 @@ function closeSheet(e){
 
 function sendRequest(){
   if(!currentPerson) return;
-  requests.push(currentPerson);
-  renderRequests();
   closeSheet();
-  showToast(`已向 ${currentPerson.name} 發送認識請求`);
-  updateNavDot();
+  showTally(
+    `🔗 想認識 ${currentPerson.name}？`,
+    `留下 Email，等 NEXU5 開放時你就能真的發送認識請求——還有機會優先認識這類創作者。`
+  );
 }
 
 function saveCard(){ showToast('已收藏'); }
@@ -1465,6 +1497,7 @@ function closeEditProfile(e){
 }
 function saveProfile(){
   if(epSkills.size === 0){ showToast('請至少選擇一項職業與技能'); return; }
+  // Update the local demo state so the profile looks filled in
   myProfile.emoji = epEmoji;
   myProfile.name = document.getElementById('ep-name').value.trim() || '你的名字';
   myProfile.role = document.getElementById('ep-role').value.trim() || '你的專業';
@@ -1476,7 +1509,11 @@ function saveProfile(){
   myProfile.bio = document.getElementById('ep-bio').value.trim() || '還沒有自介，點擊「編輯個人檔案」讓大家認識你。';
   renderMyProfile();
   document.getElementById('edit-profile-overlay').classList.remove('show');
-  showToast('個人檔案已更新');
+  // Real save requires an account — show Tally
+  showTally(
+    '📋 個人檔案建好了！',
+    '想把這份檔案真的放上平台？留下 Email，開放時我們會幫你保留一個位置。'
+  );
 }
 function renderMyProfile(){
   document.getElementById('profile-ava').textContent = myProfile.emoji;
@@ -1493,6 +1530,13 @@ function renderMyProfile(){
 
 function dismissWelcome(){
   document.getElementById('welcome-overlay').classList.add('hide');
+}
+function handleWelcomeCTA(){
+  document.getElementById('welcome-overlay').classList.add('hide');
+  showTally(
+    '👋 很高興你對 NEXU5 有興趣！',
+    '目前是互動示範版，留下 Email 搶先加入——你也可以先在裡面逛逛感受一下。'
+  );
 }
 
 // ── Public referral board (D) — a low-pressure fallback: no one has to
@@ -1589,6 +1633,28 @@ function showToast(msg){
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
   clearTimeout(tt); tt = setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ── Tally Waitlist Integration ──
+// When real actions are triggered (send request, save profile, join),
+// we show a modal that sends the user to the Tally form instead.
+// This is the Wizard of Oz validation step: collect real emails
+// before building a real backend.
+const TALLY_URL = 'https://tally.so/r/Y5gbrW';
+
+function showTally(title, desc){
+  if(title) document.getElementById('tally-title').textContent = title;
+  if(desc) document.getElementById('tally-desc').textContent = desc;
+  document.getElementById('tally-overlay').classList.add('show');
+}
+function closeTally(e){
+  if(!e || e.target===document.getElementById('tally-overlay')){
+    document.getElementById('tally-overlay').classList.remove('show');
+  }
+}
+function openTallyForm(){
+  window.open(TALLY_URL, '_blank', 'noopener,noreferrer');
+  document.getElementById('tally-overlay').classList.remove('show');
 }
 
 // Init
